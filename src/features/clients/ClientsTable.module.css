@@ -1,0 +1,343 @@
+.root {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  max-width: 1320px;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: 146px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+}
+
+.newClientButton {
+  width: 146px;
+  height: 40px;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.searchRoot {
+  width: 100%;
+}
+
+.searchInput {
+  height: 40px;
+  padding-left: 45px;
+  color: var(--crm-gray-800);
+  font-size: 14px;
+  line-height: 20px;
+  background: transparent;
+  border-color: var(--crm-gray-300);
+}
+
+.searchInput::placeholder {
+  color: var(--crm-gray-400);
+  opacity: 1;
+}
+
+.searchSection {
+  width: 45px;
+}
+
+.searchIcon {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--crm-gray-400);
+  border-radius: 50%;
+}
+
+.searchIcon::after {
+  position: absolute;
+  right: -5px;
+  bottom: -4px;
+  width: 8px;
+  height: 2px;
+  content: '';
+  background: var(--crm-gray-400);
+  transform: rotate(45deg);
+  transform-origin: center;
+}
+
+.table {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+}
+
+.table + nav {
+  margin-top: 16px;
+}
+
+.headerRow,
+.row {
+  display: grid;
+  grid-template-columns:
+    minmax(160px, 1fr) 136px 176px 164px 156px minmax(168px, 298px)
+    120px;
+  column-gap: 0;
+  align-items: center;
+}
+
+.headerRow {
+  width: 100%;
+  min-height: 16px;
+  padding: 0 24px;
+}
+
+.headerCell {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  color: var(--crm-gray-400);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.headerCellActive {
+  color: var(--crm-blue-500);
+}
+
+.headerCell svg {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  color: currentcolor;
+  stroke: currentcolor;
+}
+
+.headerCell svg path {
+  stroke: currentcolor;
+}
+
+.sortIconAsc {
+  transform: rotate(180deg);
+}
+
+.rows {
+  display: grid;
+  gap: 2px;
+}
+
+.row {
+  width: 100%;
+  min-height: 52px;
+  padding: 8px 24px;
+  color: var(--crm-gray-800);
+  font: inherit;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: left;
+  cursor: pointer;
+  background: var(--crm-white);
+  border: 0;
+  border-radius: var(--crm-radius-card);
+  box-shadow: 0 4px 8px var(--crm-gray-200);
+}
+
+.row:hover {
+  background: var(--crm-blue-100);
+}
+
+.row span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nameCell {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.linkCell {
+  color: var(--crm-blue-500);
+}
+
+.commentCell {
+  color: var(--crm-gray-500);
+}
+
+.rowDeleted {
+  min-height: 36px;
+  color: var(--crm-gray-300);
+  background: var(--crm-red-100);
+  box-shadow: none;
+}
+
+.rowDeleted .linkCell,
+.rowDeleted .commentCell {
+  color: var(--crm-gray-300);
+}
+
+.empty {
+  min-height: 52px;
+  margin: 0;
+  padding: 18px 24px;
+  color: var(--crm-gray-500);
+  font-size: 14px;
+  line-height: 20px;
+  background: var(--crm-white);
+  border-radius: var(--crm-radius-card);
+  box-shadow: 0 4px 8px var(--crm-gray-200);
+}
+
+.mobileCardList,
+.mobileNewClientButton {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .root {
+    gap: 16px;
+    max-width: none;
+  }
+
+  .toolbar {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .newClientButton {
+    display: none;
+  }
+
+  .searchInput {
+    height: 40px;
+    padding: 10px 14px 10px 45px;
+    background: var(--crm-white);
+    border-color: var(--crm-gray-300);
+  }
+
+  .table,
+  .root > nav {
+    display: none;
+  }
+
+  .mobileCardList {
+    display: grid;
+    gap: 2px;
+    width: calc(100% + 16px);
+    margin-right: -8px;
+    margin-left: -8px;
+  }
+
+  .mobileCard {
+    display: grid;
+    gap: 8px;
+    align-content: start;
+    width: 100%;
+    min-height: 140px;
+    padding: 16px 24px;
+    color: var(--crm-gray-800);
+    font: inherit;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: left;
+    cursor: pointer;
+    background: var(--crm-white);
+    border: 0;
+    border-radius: var(--crm-radius-card);
+    box-shadow: 0 4px 8px var(--crm-gray-200);
+  }
+
+  .mobileCardHeader,
+  .mobileContactBlock,
+  .mobileContactRow {
+    display: flex;
+    min-width: 0;
+  }
+
+  .mobileCardHeader {
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    height: 20px;
+  }
+
+  .mobileContactBlock {
+    display: grid;
+    gap: 4px;
+  }
+
+  .mobileContactRow {
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobileContactRow span,
+  .mobileClientName,
+  .mobileClientDate,
+  .mobileClientNote {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobileContactRow span:last-child {
+    text-align: right;
+  }
+
+  .mobileClientName {
+    color: var(--crm-gray-800);
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .mobileClientDate,
+  .mobileClientNote {
+    color: var(--crm-gray-500);
+  }
+
+  .mobileEmail {
+    color: var(--crm-blue-500);
+  }
+
+  .mobileClientNote {
+    margin-top: 3px;
+  }
+
+  .mobileCardDeleted {
+    color: var(--crm-gray-300);
+    background: var(--crm-red-100);
+  }
+
+  .mobileCardDeleted .mobileClientName,
+  .mobileCardDeleted .mobileClientDate,
+  .mobileCardDeleted .mobileClientNote,
+  .mobileCardDeleted .mobileEmail {
+    color: var(--crm-gray-300);
+  }
+
+  .mobileNewClientButton {
+    display: block;
+    width: 100%;
+    height: 40px;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+}
