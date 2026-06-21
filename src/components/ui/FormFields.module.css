@@ -1,0 +1,35 @@
+.field {
+  display: grid;
+  gap: 2px;
+}
+
+.label {
+  color: var(--crm-gray-400);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.input {
+  min-height: 40px;
+  color: var(--crm-gray-800);
+  font-size: 16px;
+  line-height: 24px;
+  background: var(--crm-white);
+  border-color: var(--crm-gray-300);
+}
+
+.input::placeholder {
+  color: var(--crm-gray-400);
+  opacity: 1;
+}
+
+.textarea {
+  min-height: 80px;
+}
+
+.error {
+  color: var(--crm-red-500);
+  font-size: 12px;
+  line-height: 16px;
+}
