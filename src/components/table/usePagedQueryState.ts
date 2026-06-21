@@ -39,7 +39,7 @@ export function usePagedQueryState<SortKey extends string>({
     setSearchState(nextSearch);
     setCurrentPageState(1);
   }, []);
-  
+
   const setSort = useCallback((nextSort: SortState<SortKey> | null) => {
     setSortState(nextSort);
     setCurrentPageState(1);
