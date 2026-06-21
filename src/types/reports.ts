@@ -1,7 +1,25 @@
 import type { DealStatus } from './deal';
 import type { TaskStatus } from './task';
+import type { Page, QueryParams } from '../api/query';
 
 export type ReportPeriod = 'week' | 'month' | 'quarter';
+
+export type ReportSortKey =
+  | 'id'
+  | 'title'
+  | 'client'
+  | 'amount'
+  | 'completedAt'
+  | 'stage'
+  | 'count'
+  | 'name'
+  | 'company'
+  | 'createdAt'
+  | 'deals'
+  | 'tasks'
+  | 'assignee'
+  | 'status'
+  | 'dueDate';
 
 export type SalesReportRow = {
   dealId: string;
@@ -39,11 +57,9 @@ export type OverdueTaskReportRow = {
   status: TaskStatus;
 };
 
-export type ReportFilters = {
-  dateFrom?: string;
-  dateTo?: string;
-
-  managerId?: string;
-
-  dealStatus?: DealStatus;
+export type ReportQueryParams = QueryParams<ReportSortKey> & {
+  userId?: string;
+  period: ReportPeriod;
 };
+
+export type ReportPage<Row> = Page<Row>;

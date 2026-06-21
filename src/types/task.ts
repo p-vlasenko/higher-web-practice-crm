@@ -18,6 +18,15 @@ export type Task = {
   createdBy: string;
 };
 
+export type TaskSortKey =
+  | 'title'
+  | 'deal'
+  | 'description'
+  | 'dueDate'
+  | 'assignee'
+  | 'status'
+  | 'createdAt';
+
 export type CreateTaskPayload = {
   title: string;
   description?: string;

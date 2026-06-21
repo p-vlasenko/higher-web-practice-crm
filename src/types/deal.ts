@@ -17,6 +17,15 @@ export type Deal = {
   createdBy: string; // userId
 };
 
+export type DealSortKey =
+  | 'title'
+  | 'client'
+  | 'description'
+  | 'status'
+  | 'amount'
+  | 'createdAt'
+  | 'completedAt';
+
 export type CreateDealPayload = {
   title: string;
   description?: string;
