@@ -21,7 +21,7 @@ export const taskEndpoints = crmApi.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-              ...result.items.map(({ id }) => ({ type: 'Tasks', id } as const)),
+              ...result.items.map(({ id }) => ({ type: 'Tasks', id }) as const),
               { type: 'Tasks', id: listId },
             ]
           : [{ type: 'Tasks', id: listId }],
