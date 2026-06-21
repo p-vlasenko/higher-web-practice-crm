@@ -1,0 +1,36 @@
+:root {
+  --crm-white: #ffffff;
+  --crm-gray-100: #f3f4f6;
+  --crm-gray-200: #e5e7eb;
+  --crm-gray-300: #d1d5db;
+  --crm-gray-400: #9ca3af;
+  --crm-gray-500: #6b7280;
+  --crm-gray-600: #4b5563;
+  --crm-gray-800: #1f2937;
+  --crm-blue-100: #eff6ff;
+  --crm-blue-500: #3b82f6;
+  --crm-blue-600: #2563eb;
+  --crm-blue-700: #1d4ed8;
+  --crm-red-100: #fef2f2;
+  --crm-red-500: #ef4444;
+  --crm-green-100: #f0fdf4;
+  --crm-green-500: #10b981;
+  --crm-yellow-100: #fff7ed;
+  --crm-yellow-500: #f59e0b;
+  --crm-space-1: 4px;
+  --crm-space-2: 8px;
+  --crm-space-3: 12px;
+  --crm-space-4: 16px;
+  --crm-space-5: 20px;
+  --crm-space-6: 24px;
+  --crm-space-8: 32px;
+  --crm-space-10: 40px;
+  --crm-space-14: 56px;
+  --crm-radius-input: 4px;
+  --crm-radius-button: 6px;
+  --crm-radius-card: 8px;
+  --crm-sidebar-expanded: 310px;
+  --crm-sidebar-collapsed: 72px;
+  --crm-app-max-width: 1440px;
+  --crm-mobile-card: 351px;
+}

@@ -1,0 +1,396 @@
+.root {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  max-width: 1320px;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: 144px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+}
+
+.newDealButton {
+  width: 144px;
+  height: 40px;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.searchRoot {
+  width: 100%;
+}
+
+.searchInput {
+  height: 40px;
+  padding-left: 45px;
+  color: var(--crm-gray-800);
+  font-size: 14px;
+  line-height: 20px;
+  background: transparent;
+  border-color: var(--crm-gray-300);
+}
+
+.searchInput::placeholder {
+  color: var(--crm-gray-400);
+  opacity: 1;
+}
+
+.searchSection {
+  width: 45px;
+}
+
+.searchIcon {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--crm-gray-400);
+  border-radius: 50%;
+}
+
+.searchIcon::after {
+  position: absolute;
+  right: -5px;
+  bottom: -4px;
+  width: 8px;
+  height: 2px;
+  content: '';
+  background: var(--crm-gray-400);
+  transform: rotate(45deg);
+  transform-origin: center;
+}
+
+.table {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+}
+
+.table + nav {
+  margin-top: 16px;
+}
+
+.headerRow,
+.row {
+  display: grid;
+  grid-template-columns: 216px 196px minmax(240px, 394px) 144px 88px 115px 133px;
+  column-gap: 0;
+  align-items: center;
+}
+
+.headerRow {
+  width: 100%;
+  min-height: 16px;
+  padding: 0 24px;
+}
+
+.headerCell {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  color: var(--crm-gray-400);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.headerCellActive {
+  color: var(--crm-blue-500);
+}
+
+.headerCell svg {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  color: currentcolor;
+  stroke: currentcolor;
+}
+
+.headerCell svg path {
+  stroke: currentcolor;
+}
+
+.sortIconAsc {
+  transform: rotate(180deg);
+}
+
+.rows {
+  display: grid;
+  gap: 2px;
+}
+
+.row {
+  width: 100%;
+  min-height: 52px;
+  padding: 8px 24px;
+  color: var(--crm-gray-800);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: var(--crm-white);
+  border: 0;
+  border-radius: var(--crm-radius-card);
+  box-shadow: 0 4px 8px var(--crm-gray-200);
+}
+
+.row:hover {
+  filter: brightness(0.985);
+}
+
+.row span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowNew {
+  background: var(--crm-blue-100);
+}
+
+.rowCompleted {
+  background: var(--crm-green-100);
+}
+
+.rowCancelled {
+  background: var(--crm-yellow-100);
+}
+
+.rowInProgress {
+  background: var(--crm-white);
+}
+
+.titleCell,
+.clientCell,
+.amountCell {
+  color: var(--crm-gray-800);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.descriptionCell,
+.statusCell,
+.dateCell {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.descriptionCell,
+.dateCell {
+  color: var(--crm-gray-800);
+}
+
+.statusNew {
+  color: var(--crm-gray-800);
+}
+
+.statusInProgress {
+  color: var(--crm-blue-500);
+}
+
+.statusCompleted {
+  color: var(--crm-green-500);
+}
+
+.statusCancelled {
+  color: var(--crm-yellow-500);
+}
+
+.empty {
+  min-height: 52px;
+  margin: 0;
+  padding: 18px 24px;
+  color: var(--crm-gray-500);
+  font-size: 14px;
+  line-height: 20px;
+  background: var(--crm-white);
+  border-radius: var(--crm-radius-card);
+  box-shadow: 0 4px 8px var(--crm-gray-200);
+}
+
+.mobileCardList,
+.mobileNewDealButton {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .root {
+    gap: 16px;
+    max-width: none;
+  }
+
+  .toolbar {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .newDealButton {
+    display: none;
+  }
+
+  .searchInput {
+    height: 40px;
+    padding: 10px 14px 10px 45px;
+    background: var(--crm-white);
+    border-color: var(--crm-gray-300);
+  }
+
+  .table,
+  .root > nav {
+    display: none;
+  }
+
+  .mobileCardList {
+    display: grid;
+    gap: 2px;
+    width: calc(100% + 16px);
+    margin-right: -8px;
+    margin-left: -8px;
+  }
+
+  .mobileCard {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+    width: 100%;
+    min-height: 148px;
+    padding: 16px 24px;
+    color: var(--crm-gray-800);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    background: var(--crm-white);
+    border: 0;
+    border-radius: var(--crm-radius-card);
+    box-shadow: 0 4px 8px var(--crm-gray-200);
+  }
+
+  .mobileCardNew {
+    background: var(--crm-blue-100);
+  }
+
+  .mobileCardCompleted {
+    background: var(--crm-green-100);
+  }
+
+  .mobileCardCancelled {
+    background: var(--crm-yellow-100);
+  }
+
+  .mobileCardInProgress {
+    background: var(--crm-white);
+  }
+
+  .mobileCardHeader,
+  .mobileMetaRow,
+  .mobileDatesRow {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    justify-content: space-between;
+    min-width: 0;
+  }
+
+  .mobileTitle,
+  .mobileClient,
+  .mobileAmount {
+    color: var(--crm-gray-800);
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .mobileTitle,
+  .mobileClient,
+  .mobileDescription,
+  .mobileDateGroup {
+    min-width: 0;
+  }
+
+  .mobileTitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobileStatus,
+  .mobileDescription,
+  .mobileDateGroup {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .mobileStatus,
+  .mobileAmount {
+    flex: 0 0 auto;
+    text-align: right;
+  }
+
+  .mobileAmount {
+    font-weight: 700;
+  }
+
+  .mobileDescription {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--crm-gray-500);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .mobileDatesRow {
+    align-items: flex-start;
+    margin-top: 4px;
+  }
+
+  .mobileDateGroup {
+    display: grid;
+    gap: 2px;
+  }
+
+  .mobileDateGroup span {
+    white-space: nowrap;
+  }
+
+  .mobileDateGroup:first-child {
+    flex: 1 1 auto;
+  }
+
+  .mobileDateGroup:last-child {
+    flex: 0 0 max-content;
+    text-align: right;
+  }
+
+  .mobileDateGroup span:first-child {
+    color: var(--crm-gray-400);
+  }
+
+  .mobileDateGroup span:last-child {
+    color: var(--crm-gray-800);
+  }
+
+  .mobileNewDealButton {
+    display: block;
+    width: 100%;
+    height: 40px;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+}

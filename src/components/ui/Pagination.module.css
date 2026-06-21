@@ -1,0 +1,142 @@
+.root {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 32px;
+  color: var(--crm-gray-800);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.arrowButton,
+.pageButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: var(--crm-gray-800);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: var(--crm-radius-button);
+}
+
+.arrowButton {
+  color: var(--crm-gray-400);
+  background: var(--crm-gray-100);
+}
+
+.arrowButton:hover {
+  color: var(--crm-gray-800);
+}
+
+.arrowButton:hover svg path {
+  stroke: var(--crm-gray-800);
+}
+
+.arrowButton:disabled {
+  color: var(--crm-gray-300);
+  cursor: default;
+  background: var(--crm-gray-100);
+}
+
+.arrowButton:disabled:hover {
+  color: var(--crm-gray-300);
+}
+
+.arrowButton:disabled:hover svg path {
+  stroke: var(--crm-gray-300);
+}
+
+.arrowButton svg {
+  width: 20px;
+  height: 20px;
+  color: currentcolor;
+}
+
+.arrowButton svg path {
+  stroke: currentcolor;
+}
+
+.arrowButtonNext svg {
+  transform: rotate(180deg);
+}
+
+.pageButton {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.pageButton:hover {
+  background: var(--crm-blue-100);
+}
+
+.pageButtonActive {
+  color: var(--crm-white);
+  background: var(--crm-blue-500);
+}
+
+.pageButtonActive:hover {
+  background: var(--crm-blue-600);
+}
+
+.ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.jumpForm {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-left: 12px;
+}
+
+.pageInput {
+  width: 48px;
+  height: 32px;
+  padding: 0 8px;
+  color: var(--crm-gray-400);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  background: var(--crm-white);
+  border: 2px solid var(--crm-gray-400);
+  border-radius: var(--crm-radius-button);
+}
+
+.pageInput:hover,
+.pageInput:focus,
+.pageInput:focus-visible {
+  color: var(--crm-gray-400);
+  border-color: var(--crm-gray-400);
+  outline: none;
+}
+
+.jumpLabel {
+  color: var(--crm-gray-500);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+@media (max-width: 700px) {
+  .root {
+    overflow-x: auto;
+  }
+
+  .arrowButton,
+  .pageButton {
+    flex: 0 0 32px;
+  }
+
+  .jumpForm {
+    display: none;
+  }
+}

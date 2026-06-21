@@ -35,3 +35,14 @@ export type DashboardData = {
 
   recentTasks: Task[];
 };
+
+export type DashboardResponse = DashboardData & {
+  activeClients: Client[];
+  activeDealsQuarter: number;
+  clients: Client[];
+  completedQuarter: number;
+  dealCountByClientId: Record<string, number>;
+  dealTitleById: Record<string, string>;
+  deals: Deal[];
+  topActiveDeals: Deal[];
+};

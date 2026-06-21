@@ -1,0 +1,479 @@
+.reportsPage {
+  display: grid;
+  gap: 32px;
+  width: 100%;
+  max-width: 1082px;
+}
+
+.reportsTitle {
+  margin: 0;
+  color: var(--crm-gray-800);
+  font-family: Roboto, Inter, Arial, sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 36px;
+}
+
+.tabs {
+  display: flex;
+  gap: 16px;
+  align-items: end;
+  width: 100%;
+  border-bottom: 1px solid var(--crm-gray-200);
+}
+
+.tab {
+  height: 31px;
+  padding: 0 8px;
+  color: var(--crm-gray-500);
+  font-family: Roboto, Inter, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+}
+
+.tabActive {
+  color: var(--crm-blue-600);
+  border-bottom-color: var(--crm-blue-600);
+}
+
+.tab:hover {
+  color: var(--crm-gray-600);
+}
+
+.tabActive:hover {
+  border-bottom-color: var(--crm-blue-600);
+}
+
+.mobileTabLabel {
+  display: none;
+}
+
+.reportsStack {
+  display: grid;
+  gap: 24px;
+}
+
+.reportSection {
+  display: grid;
+  gap: 12px;
+}
+
+.reportTitle {
+  margin: 0;
+  color: var(--crm-gray-800);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.reportToolbar {
+  display: grid;
+  grid-template-columns: 134px;
+  gap: 8px;
+  align-items: center;
+  width: calc(100% - 16px);
+  min-height: 40px;
+}
+
+.periodSelectRoot {
+  width: 100%;
+}
+
+.selectInput {
+  height: 40px;
+  color: var(--crm-gray-800);
+  font-size: 14px;
+  line-height: 20px;
+  background: var(--crm-white);
+  border-color: var(--crm-gray-300);
+}
+
+.selectSection svg {
+  width: 16px;
+  height: 16px;
+  color: var(--crm-gray-500);
+}
+
+.selectSection svg path {
+  stroke: currentcolor;
+}
+
+.reportTable {
+  display: grid;
+  gap: 4px;
+}
+
+.reportHeaderRow,
+.reportRow {
+  display: grid;
+  align-items: center;
+}
+
+.reportColumnsThree {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.reportColumnsFour {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.reportColumnsFourWithId {
+  grid-template-columns: minmax(360px, 1.7fr) repeat(3, minmax(0, 1fr));
+  column-gap: 24px;
+}
+
+.reportColumnsFive {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.reportColumnsFiveWithId {
+  grid-template-columns: minmax(360px, 1.7fr) repeat(4, minmax(0, 1fr));
+  column-gap: 24px;
+}
+
+.reportHeaderRow {
+  min-height: 16px;
+  padding: 0 17px 0 14px;
+}
+
+.reportHeaderCell {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  color: var(--crm-gray-400);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.reportHeaderCellActive {
+  color: var(--crm-blue-500);
+}
+
+.reportHeaderCell:hover {
+  color: var(--crm-gray-600);
+}
+
+.reportHeaderCellActive:hover {
+  color: var(--crm-blue-700);
+}
+
+.reportHeaderCell svg {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  color: currentcolor;
+}
+
+.reportHeaderCell svg path {
+  stroke: currentcolor;
+}
+
+.sortIconAsc {
+  transform: rotate(180deg);
+}
+
+.reportRows {
+  display: grid;
+  gap: 2px;
+}
+
+.reportRow {
+  min-height: 52px;
+  padding: 8px 24px;
+  color: var(--crm-gray-800);
+  font-size: 14px;
+  line-height: 20px;
+  background: var(--crm-white);
+  border-radius: var(--crm-radius-card);
+  box-shadow: 0 4px 8px var(--crm-gray-200);
+}
+
+.reportDesktopCell {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reportColumnsFourWithId > .reportDesktopCell:first-child,
+.reportColumnsFiveWithId > .reportDesktopCell:first-child {
+  text-overflow: clip;
+}
+
+.reportRowDanger {
+  background: var(--crm-red-100);
+}
+
+.statusBlue {
+  color: var(--crm-blue-700);
+}
+
+.statusSuccess {
+  color: var(--crm-green-500);
+}
+
+.statusWarning {
+  color: var(--crm-yellow-500);
+}
+
+.statusError {
+  color: var(--crm-red-500);
+}
+
+.reportEmpty {
+  min-height: 52px;
+  margin: 0;
+  padding: 16px 24px;
+  color: var(--crm-gray-500);
+  font-size: 14px;
+  line-height: 20px;
+  background: var(--crm-white);
+  border-radius: var(--crm-radius-card);
+  box-shadow: 0 4px 8px var(--crm-gray-200);
+}
+
+.mobileReportCard {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .reportsPage {
+    gap: 20px;
+    max-width: none;
+  }
+
+  .reportsTitle {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    overflow: visible;
+    border-bottom-color: var(--crm-gray-300);
+  }
+
+  .tab {
+    display: grid;
+    justify-items: center;
+    height: 23px;
+    padding: 0;
+    font-family: Inter, Roboto, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+
+  .desktopTabLabel {
+    display: none;
+  }
+
+  .mobileTabLabel {
+    display: inline;
+  }
+
+  .reportToolbar {
+    grid-template-columns: minmax(0, 1fr);
+    width: 164px;
+    min-width: 0;
+  }
+
+  .periodSelectRoot {
+    width: 164px;
+  }
+
+  .reportHeaderRow {
+    display: none;
+  }
+
+  .reportsStack {
+    gap: 20px;
+  }
+
+  .reportSection {
+    gap: 8px;
+  }
+
+  .reportTitle {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .reportTable {
+    gap: 0;
+  }
+
+  .reportRows {
+    gap: 4px;
+  }
+
+  .reportRow {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 0;
+    color: var(--crm-gray-800);
+    font-size: 14px;
+    line-height: 20px;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .reportDesktopCell {
+    display: none;
+  }
+
+  .reportSection > nav {
+    display: none;
+  }
+
+  .mobileReportCard {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--crm-white);
+    border-radius: var(--crm-radius-card);
+    box-shadow: 0 4px 8px var(--crm-gray-200);
+  }
+
+  .mobileSalesCard {
+    min-height: 86px;
+    padding: 16px 24px;
+    gap: 6px;
+  }
+
+  .mobileStageCard {
+    grid-template-columns: minmax(0, 1fr) max-content max-content;
+    align-items: center;
+    min-height: 60px;
+    padding: 20px 24px;
+    gap: 16px;
+  }
+
+  .mobileClientCard {
+    min-height: 82px;
+    padding: 12px 16px;
+    gap: 6px;
+  }
+
+  .mobileActivityCard {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) max-content max-content;
+    align-items: center;
+    min-height: 52px;
+    padding: 8px 16px;
+    gap: 12px;
+  }
+
+  .mobileTaskCard {
+    min-height: 120px;
+    padding: 8px 24px;
+    gap: 6px;
+    background: var(--crm-red-100);
+  }
+
+  .mobileCardTopRow,
+  .mobileCardBottomRow,
+  .mobileTaskTopRow,
+  .mobileTaskMetaRow {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .mobileCardTopRow {
+    gap: 16px;
+  }
+
+  .mobileCardBottomRow {
+    justify-content: space-between;
+  }
+
+  .mobileTaskTopRow,
+  .mobileTaskMetaRow {
+    justify-content: space-between;
+  }
+
+  .mobileInlineGroup,
+  .mobileMetricGroup {
+    display: inline-flex;
+    gap: 2px;
+    align-items: baseline;
+    min-width: 0;
+  }
+
+  .mobileMetricGroup {
+    justify-content: flex-end;
+  }
+
+  .mobileTaskAssigneeGroup {
+    display: grid;
+    gap: 0;
+    min-width: 0;
+  }
+
+  .mobileCardId,
+  .mobileTaskId {
+    color: var(--crm-blue-500);
+  }
+
+  .mobileTaskId,
+  .mobileCardAmount,
+  .mobileCardTitle {
+    font-weight: 700;
+  }
+
+  .mobileSalesTitle {
+    margin-left: auto;
+    text-align: right;
+  }
+
+  .mobileClientNameGroup {
+    margin-left: auto;
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .mobileCardLabel,
+  .mobileCardDate {
+    color: var(--crm-gray-500);
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .mobileTaskStatus {
+    color: var(--crm-red-500);
+  }
+
+  .mobileStageName {
+    min-width: 0;
+    color: var(--crm-blue-500);
+  }
+
+  .mobileReportCard span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

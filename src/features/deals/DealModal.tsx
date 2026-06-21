@@ -1,0 +1,181 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+
+import {
+  CrmNumberInput,
+  CrmSelect,
+  CrmTextInput,
+  CrmTextarea,
+} from '../../components/ui/FormFields';
+import { CrmModal } from '../../components/ui/Modal';
+import modalClasses from '../../components/ui/ui.module.css';
+import type { Deal } from '../../types/deal';
+import type { EntityOption } from '../../types/options';
+import { dealStatusLabels } from '../../utils/formatters';
+import { dealSchema, type DealFormValues } from './dealSchemas';
+
+type DealModalProps = {
+  opened: boolean;
+  deal?: Deal | null;
+  clientOptions: EntityOption[];
+  loading?: boolean;
+  onClose: () => void;
+  onSubmit: (values: DealFormValues) => void;
+};
+
+const defaults: DealFormValues = {
+  title: '',
+  clientId: '',
+  description: '',
+  amount: 0,
+  status: 'new',
+  createdAt: new Date().toISOString().slice(0, 10),
+  completedAt: '',
+};
+
+export function DealModal({
+  opened,
+  deal,
+  clientOptions,
+  loading,
+  onClose,
+  onSubmit,
+}: DealModalProps) {
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<DealFormValues>({
+    resolver: zodResolver(dealSchema),
+    defaultValues: defaults,
+  });
+
+  useEffect(() => {
+    reset(
+      deal
+        ? {
+            ...deal,
+            createdAt: deal.createdAt.slice(0, 10),
+            completedAt: deal.completedAt?.slice(0, 10) ?? '',
+            description: deal.description ?? '',
+          }
+        : defaults,
+    );
+  }, [deal, reset]);
+
+  return (
+    <CrmModal
+      opened={opened}
+      title={deal ? 'Карточка сделки' : 'Новая сделка'}
+      hideCancelOnMobile={!deal}
+      loading={loading}
+      mobileBackLabel={deal ? undefined : 'Новая сделка'}
+      submitLabel={deal ? 'Сохранить' : 'Создать сделку'}
+      onClose={onClose}
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <form
+        className={modalClasses.modalForm}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className={modalClasses.modalFieldRow}>
+          <Controller
+            name='title'
+            control={control}
+            render={({ field }) => (
+              <CrmTextInput
+                label='Название'
+                placeholder='Заключение договора'
+                error={errors.title?.message}
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name='clientId'
+            control={control}
+            render={({ field }) => (
+              <CrmSelect
+                label='Клиент'
+                data={clientOptions}
+                placeholder='Велимир'
+                error={errors.clientId?.message}
+                {...field}
+              />
+            )}
+          />
+        </div>
+        <div className={modalClasses.modalFieldRow}>
+          <Controller
+            name='amount'
+            control={control}
+            render={({ field }) => (
+              <CrmNumberInput
+                label='Сумма'
+                placeholder='50 000 ₽'
+                error={errors.amount?.message}
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name='status'
+            control={control}
+            render={({ field }) => (
+              <CrmSelect
+                label='Статус'
+                data={Object.entries(dealStatusLabels).map(
+                  ([value, label]) => ({ value, label }),
+                )}
+                error={errors.status?.message}
+                {...field}
+              />
+            )}
+          />
+        </div>
+        {deal ? (
+          <div className={modalClasses.modalFieldRow}>
+            <Controller
+              name='createdAt'
+              control={control}
+              render={({ field }) => (
+                <CrmTextInput
+                  type='date'
+                  label='Дата создания'
+                  error={errors.createdAt?.message}
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              name='completedAt'
+              control={control}
+              render={({ field }) => (
+                <CrmTextInput
+                  type='date'
+                  label='Дата завершения'
+                  error={errors.completedAt?.message}
+                  {...field}
+                />
+              )}
+            />
+          </div>
+        ) : null}
+        <Controller
+          name='description'
+          control={control}
+          render={({ field }) => (
+            <CrmTextarea
+              label='Описание'
+              placeholder='Подготовка финальных условий для долгосрочного контракта.'
+              error={errors.description?.message}
+              {...field}
+            />
+          )}
+        />
+      </form>
+    </CrmModal>
+  );
+}
