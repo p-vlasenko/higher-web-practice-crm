@@ -92,7 +92,7 @@ export function DashboardModals({
           onClose={() => setTaskModalOpened(false)}
           onSubmit={async (values) => {
             await createTask(toTaskPayload(values, userId));
-            
+
             setTaskModalOpened(false);
           }}
         />

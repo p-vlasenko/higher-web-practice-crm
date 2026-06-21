@@ -19,7 +19,9 @@ const tasksPageSize = 15;
 export function TasksController() {
   const userId = useAppSelector((state) => state.session.user?.id ?? null);
   const query = usePagedQueryState<TaskSortKey>({ pageSize: tasksPageSize });
+
   const { data: assigneeOptions = [] } = useGetUserOptionsQuery();
+
   const { data: dealOptions = [] } = useGetDealOptionsQuery({
     userId: userId ?? undefined,
   });
@@ -36,6 +38,7 @@ export function TasksController() {
 
   const [createTask, createState] = useCreateTaskMutation();
   const [updateTask, updateState] = useUpdateTaskMutation();
+
   const [selected, setSelected] = useState<Task | null>(null);
   const [opened, setOpened] = useState(false);
   const totalPages = query.totalPages(taskPage.total);
