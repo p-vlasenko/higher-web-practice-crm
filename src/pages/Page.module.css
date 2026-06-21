@@ -7,7 +7,7 @@
   min-height: 100vh;
   padding: 32px 130px;
   background-color: var(--crm-white);
-  background-image: url('../../design/ui-kit/background.svg');
+  background-image: url('../../assets/icons/background.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -818,7 +818,7 @@
     padding: 20px;
     overflow: hidden;
     background-color: var(--crm-white);
-    background-image: url('../../design/ui-kit/background.mobile.svg');
+    background-image: url('../../assets/icons/background.mobile.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

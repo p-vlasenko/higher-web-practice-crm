@@ -1,7 +1,7 @@
 import { Select } from '@mantine/core';
 import type { ReactNode } from 'react';
 
-import DownIcon from '../../../design/ui-kit/icons-16x16/down.svg?react';
+import DownIcon from '../../assets/icons/icons-16x16/down.svg?react';
 import { Pagination } from '../../components/ui/Pagination';
 import type { ReportPeriod } from '../../types/reports';
 import classes from '../../pages/ReportsPage.module.css';

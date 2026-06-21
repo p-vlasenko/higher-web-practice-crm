@@ -3,7 +3,7 @@ import { Button, Text, Title } from '@mantine/core';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
-import LogoFullIcon from '../../design/ui-kit/logo/logo-full.svg?react';
+import LogoFullIcon from '../assets/icons/logo/logo-full.svg?react';
 import { useGetUsersQuery } from '../api/endpoints/crmEndpoints';
 import { useAppDispatch } from '../app/hooks';
 import { CrmPasswordInput, CrmTextInput } from '../components/ui/FormFields';

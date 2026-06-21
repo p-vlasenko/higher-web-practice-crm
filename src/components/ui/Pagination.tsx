@@ -1,7 +1,7 @@
 import { cx } from 'classix';
 import { useMemo, useState } from 'react';
 
-import ArrowIcon from '../../../design/ui-kit/icons-24x24/arrow.svg?react';
+import ArrowIcon from '../../assets/icons/icons-24x24/arrow.svg?react';
 import classes from './Pagination.module.css';
 
 type PaginationProps = {

@@ -2,7 +2,7 @@ import { Button, TextInput } from '@mantine/core';
 import { cx } from 'classix';
 import type { ReactNode } from 'react';
 
-import DownIcon from '../../../design/ui-kit/icons-16x16/down.svg?react';
+import DownIcon from '../../assets/icons/icons-16x16/down.svg?react';
 import type { SortState } from '../../utils/sorting';
 import { Pagination } from '../ui/Pagination';
 import type { PagedEntityColumn } from './PagedEntityTable';

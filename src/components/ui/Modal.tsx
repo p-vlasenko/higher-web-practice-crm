@@ -2,7 +2,7 @@ import { Button, Modal as MantineModal } from '@mantine/core';
 import { cx } from 'classix';
 import type { ReactNode } from 'react';
 
-import ArrowIcon from '../../assets/ui-kit/icons-16x16/arrow.svg?react';
+import ArrowIcon from '../../assets/icons/icons-16x16/arrow.svg?react';
 import classes from './ui.module.css';
 
 type CrmModalProps = {

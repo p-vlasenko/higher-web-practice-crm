@@ -1,6 +1,6 @@
 import { cx } from 'classix';
 
-import DownIcon from '../../../design/ui-kit/icons-16x16/down.svg?react';
+import DownIcon from '../../assets/icons/icons-16x16/down.svg?react';
 import classes from '../../pages/ReportsPage.module.css';
 import type { ReportSortKey } from '../../types/reports';
 import { toggleSort, type SortState } from '../../utils/sorting';
