@@ -1,4 +1,6 @@
-/* Minimal neutral styles for the study template. */
+@import '@mantine/core/styles.css';
+@import '@mantine/notifications/styles.css';
+@import './styles/tokens.module.css';
 
 *,
 *::before,
@@ -7,25 +9,54 @@
 }
 
 html,
-body {
-  height: 100%;
+body,
+#root {
+  min-width: 320px;
+  min-height: 100%;
 }
 
 body {
   margin: 0;
-  min-height: 100dvh;
-  color: #111827;
-  background: #f9fafb;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  color: var(--crm-gray-800);
+  background: var(--crm-gray-100);
+  font-family: Inter, Arial, sans-serif;
   line-height: 1.5;
 }
 
 a {
-  color: inherit;
+  color: var(--crm-blue-600);
+  text-decoration: none;
 }
 
-main {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 24px 16px;
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border-radius: var(--crm-radius-button);
+}
+
+button:focus,
+button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.mantine-focus-auto:focus,
+.mantine-focus-auto:focus-visible,
+.mantine-focus-always:focus,
+.mantine-focus-always:focus-visible,
+button[data-focus-ring]:focus,
+button[data-focus-ring]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+input,
+textarea,
+select {
+  border-radius: var(--crm-radius-input);
 }

@@ -60,7 +60,7 @@ export function sortItems<T, Key extends string>(
         getValue(right.item, sort.key),
         sort.direction,
       );
-      
+
       return result || left.index - right.index;
     })
     .map(({ item }) => item);
