@@ -37,7 +37,7 @@ export function ProfileForm({
   onSubmit,
 }: ProfileFormProps) {
   const profileName = useWatch({ control, name: 'name' });
-  
+
   const avatarInitial =
     (profileName ?? '').trim().charAt(0).toUpperCase() || 'A';
 

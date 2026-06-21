@@ -75,7 +75,7 @@ export function DealsController() {
         onClose={() => setOpened(false)}
         onSubmit={async (values) => {
           if (!userId) return;
-          
+
           if (selected) {
             await updateDeal({
               id: selected.id,

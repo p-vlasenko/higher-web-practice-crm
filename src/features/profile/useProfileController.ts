@@ -83,7 +83,7 @@ export function useProfileController() {
       const message =
         error instanceof Error ? error.message : 'Не удалось сохранить профиль';
 
-        if (message.includes('пароль')) {
+      if (message.includes('пароль')) {
         form.setError('currentPassword', { message });
       } else {
         form.setError('email', { message });
@@ -102,7 +102,7 @@ export function useProfileController() {
     if (!currentUser) return;
 
     await deleteUser({ id: currentUser.id }).unwrap();
-    
+
     dispatch(logout());
     navigate('/');
   };
