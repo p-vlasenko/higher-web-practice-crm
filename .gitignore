@@ -7,6 +7,11 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+example
+design
+AGENTS.md
+.nvmrc
+
 node_modules
 dist
 dist-ssr

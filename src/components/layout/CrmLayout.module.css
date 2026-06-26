@@ -34,6 +34,15 @@
 
 .sidebarExpanded {
   width: var(--crm-sidebar-expanded);
+  padding: 28px 0 24px;
+}
+
+.sidebarHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 40px;
+  align-items: center;
+  width: 100%;
+  padding: 0 var(--crm-space-5);
 }
 
 .logo {
@@ -41,6 +50,14 @@
   align-items: center;
   width: 162px;
   height: 40px;
+  color: var(--crm-gray-800);
+}
+
+.sidebarLogo {
+  display: flex;
+  align-items: center;
+  width: 102px;
+  height: 32px;
   color: var(--crm-gray-800);
 }
 
@@ -58,6 +75,12 @@
   height: 40px;
 }
 
+.sidebarLogo svg {
+  display: block;
+  width: 102px;
+  height: 32px;
+}
+
 .logoCompact svg {
   display: block;
   width: 40px;
@@ -67,7 +90,7 @@
 .sidebarTop {
   display: grid;
   align-content: start;
-  gap: var(--crm-space-5);
+  gap: 20px;
 }
 
 .sidebarBottom {
@@ -90,13 +113,6 @@
   border: 0;
 }
 
-.sidebarToggleExpanded {
-  justify-content: flex-start;
-  width: 210px;
-  margin: 0 var(--crm-space-5);
-  padding: var(--crm-space-2) 0;
-}
-
 .sidebarToggle svg:hover {
   fill: var(--crm-gray-200);
 }
@@ -105,6 +121,12 @@
   display: grid;
   gap: var(--crm-space-4);
   justify-items: center;
+}
+
+.sidebarExpanded .nav {
+  gap: 0;
+  justify-items: stretch;
+  padding: 0 var(--crm-space-5);
 }
 
 .navItem,
@@ -121,9 +143,16 @@
 }
 
 .navItemExpanded {
+  gap: var(--crm-space-2);
   justify-content: flex-start;
-  width: 210px;
-  padding: var(--crm-space-2) var(--crm-space-5);
+  width: 100%;
+  height: 56px;
+  padding: 0;
+  border-bottom: 1px solid var(--crm-gray-300);
+}
+
+.navItemExpanded:last-child {
+  border-bottom: 0;
 }
 
 .userItem {
@@ -131,10 +160,11 @@
 }
 
 .userItemExpanded {
+  gap: var(--crm-space-2);
   justify-content: flex-start;
-  width: 204px;
-  height: 64px;
-  padding: var(--crm-space-2) var(--crm-space-5);
+  width: calc(100% - 40px);
+  height: 56px;
+  padding: 0;
 }
 
 .navItem svg,

@@ -17,7 +17,6 @@ import UserIcon from '../../assets/icons/icons-24x24/user.svg?react';
 import XMarkIcon from '../../assets/icons/icons-24x24/x-mark.svg?react';
 import LogoIcon from '../../assets/icons/logo/logo.svg?react';
 import LogoFullIcon from '../../assets/icons/logo/logo-full.svg?react';
-import { getUserDisplayName } from '../../utils/users';
 import { CrmIconButton } from '../ui/IconButton';
 import classes from './CrmLayout.module.css';
 
@@ -25,8 +24,8 @@ const navItems = [
   { to: '/dashboard', label: 'Главная', Icon: HomeIcon },
   { to: '/clients', label: 'Клиенты', Icon: TeamIcon },
   { to: '/deals', label: 'Сделки', Icon: BriefcaseIcon },
-  { to: '/tasks', label: 'Задачи', Icon: TaskIcon },
   { to: '/reports', label: 'Отчёты', Icon: ProjectIcon },
+  { to: '/tasks', label: 'Задачи', Icon: TaskIcon },
 ];
 
 export function CrmLayout() {
@@ -121,26 +120,36 @@ export function CrmLayout() {
           )}
         >
           <div className={classes.sidebarTop}>
-            <button
-              aria-expanded={isSidebarExpanded}
-              aria-label={
-                isSidebarExpanded
-                  ? 'Свернуть боковую панель'
-                  : 'Развернуть боковую панель'
-              }
-              className={cx(
-                classes.sidebarToggle,
-                isSidebarExpanded && classes.sidebarToggleExpanded,
-              )}
-              type='button'
-              onClick={() => setIsSidebarExpanded((value) => !value)}
-            >
-              {isSidebarExpanded ? (
-                <SidebarCollapseIcon aria-hidden='true' />
-              ) : (
+            {isSidebarExpanded ? (
+              <div className={classes.sidebarHeader}>
+                <Link
+                  aria-label='YaPlex CRM'
+                  className={classes.sidebarLogo}
+                  to='/dashboard'
+                >
+                  <LogoFullIcon aria-hidden='true' />
+                </Link>
+                <button
+                  aria-expanded={isSidebarExpanded}
+                  aria-label='Свернуть боковую панель'
+                  className={classes.sidebarToggle}
+                  type='button'
+                  onClick={() => setIsSidebarExpanded(false)}
+                >
+                  <SidebarCollapseIcon aria-hidden='true' />
+                </button>
+              </div>
+            ) : (
+              <button
+                aria-expanded={isSidebarExpanded}
+                aria-label='Развернуть боковую панель'
+                className={classes.sidebarToggle}
+                type='button'
+                onClick={() => setIsSidebarExpanded(true)}
+              >
                 <SidebarExpandIcon aria-hidden='true' />
-              )}
-            </button>
+              </button>
+            )}
             <nav className={classes.nav} aria-label='Основная навигация'>
               {navItems.map(({ to, label, Icon }) => (
                 <NavLink

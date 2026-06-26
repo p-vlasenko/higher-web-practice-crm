@@ -162,6 +162,20 @@ describe('ProfilePage', () => {
     expect(mockUpdateUser).not.toHaveBeenCalled();
   });
 
+  it('enables current password only while editing password', async () => {
+    const user = userEvent.setup();
+
+    renderProfilePage();
+
+    const currentPasswordInput = getNamedInput('currentPassword');
+
+    expect(currentPasswordInput.disabled).toBe(true);
+
+    await typeNamedInput(user, 'newPassword', '654321');
+
+    expect(currentPasswordInput.disabled).toBe(false);
+  });
+
   it('logs out and navigates to login page', async () => {
     const user = userEvent.setup();
 

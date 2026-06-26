@@ -29,6 +29,7 @@
 }
 
 .error {
+  min-height: 16px;
   color: var(--crm-red-500);
   font-size: 12px;
   line-height: 16px;
