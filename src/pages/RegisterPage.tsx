@@ -93,78 +93,90 @@ export function RegisterPage() {
         <form className={classes.authCard} onSubmit={handleSubmit(onSubmit)}>
           <Title order={2}>Регистрация</Title>
           <div className={classes.form}>
-            <Controller
-              name='firstName'
-              control={control}
-              render={({ field }) => (
-                <CrmTextInput
-                  label='Имя'
-                  placeholder='Ярополк'
-                  error={errors.firstName?.message}
-                  {...field}
-                />
-              )}
-            />
-            <Controller
-              name='lastName'
-              control={control}
-              render={({ field }) => (
-                <CrmTextInput
-                  label='Фамилия'
-                  placeholder='Иванов'
-                  error={errors.lastName?.message}
-                  {...field}
-                />
-              )}
-            />
-            <Controller
-              name='email'
-              control={control}
-              render={({ field }) => (
-                <CrmTextInput
-                  label='Email'
-                  placeholder='ivanov@yandex.ru'
-                  error={errors.email?.message}
-                  {...field}
-                />
-              )}
-            />
-            <Controller
-              name='accountName'
-              control={control}
-              render={({ field }) => (
-                <CrmTextInput
-                  label='Имя аккаунта'
-                  placeholder='Yaropolk'
-                  error={errors.accountName?.message}
-                  {...field}
-                />
-              )}
-            />
-            <Controller
-              name='password'
-              control={control}
-              render={({ field }) => (
-                <CrmPasswordInput
-                  label='Придумайте пароль'
-                  placeholder='******'
-                  error={errors.password?.message}
-                  {...field}
-                />
-              )}
-            />
-            <Controller
-              name='passwordRepeat'
-              control={control}
-              render={({ field }) => (
-                <CrmPasswordInput
-                  label='Повторите пароль'
-                  placeholder='******'
-                  error={errors.passwordRepeat?.message}
-                  {...field}
-                />
-              )}
-            />
+            <div className={classes.authField}>
+              <Controller
+                name='firstName'
+                control={control}
+                render={({ field }) => (
+                  <CrmTextInput
+                    label='Имя'
+                    placeholder='Ярополк'
+                    error={errors.firstName?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+            <div className={classes.authField}>
+              <Controller
+                name='lastName'
+                control={control}
+                render={({ field }) => (
+                  <CrmTextInput
+                    label='Фамилия'
+                    placeholder='Иванов'
+                    error={errors.lastName?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+            <div className={classes.authField}>
+              <Controller
+                name='email'
+                control={control}
+                render={({ field }) => (
+                  <CrmTextInput
+                    label='Email'
+                    placeholder='ivanov@yandex.ru'
+                    error={errors.email?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+            <div className={classes.authField}>
+              <Controller
+                name='accountName'
+                control={control}
+                render={({ field }) => (
+                  <CrmTextInput
+                    label='Имя аккаунта'
+                    placeholder='Yaropolk'
+                    error={errors.accountName?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+            <div className={classes.authField}>
+              <Controller
+                name='password'
+                control={control}
+                render={({ field }) => (
+                  <CrmPasswordInput
+                    label='Придумайте пароль'
+                    placeholder='******'
+                    error={errors.password?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+            <div className={classes.authField}>
+              <Controller
+                name='passwordRepeat'
+                control={control}
+                render={({ field }) => (
+                  <CrmPasswordInput
+                    label='Повторите пароль'
+                    placeholder='******'
+                    error={errors.passwordRepeat?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
           </div>
           <Button
             className={classes.loginSubmitButton}

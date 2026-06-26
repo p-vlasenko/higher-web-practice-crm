@@ -65,18 +65,20 @@ export function LandingPage() {
         <form className={classes.authCard} onSubmit={handleSubmit(onSubmit)}>
           <Title order={2}>Вход в аккаунт</Title>
           <div className={classes.form}>
-            <Controller
-              name='email'
-              control={control}
-              render={({ field }) => (
-                <CrmTextInput
-                  required
-                  label='Email или логин'
-                  error={errors.email?.message}
-                  {...field}
-                />
-              )}
-            />
+            <div className={classes.authField}>
+              <Controller
+                name='email'
+                control={control}
+                render={({ field }) => (
+                  <CrmTextInput
+                    required
+                    label='Email или логин'
+                    error={errors.email?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
             <div className={classes.loginPasswordGroup}>
               <Controller
                 name='password'

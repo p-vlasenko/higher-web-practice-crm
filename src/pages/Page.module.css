@@ -74,9 +74,21 @@
   gap: var(--crm-space-4);
 }
 
+.authField {
+  min-width: 0;
+  height: 80px;
+  align-self: start;
+}
+
 .loginPasswordGroup {
   display: grid;
   gap: 4px;
+  height: 104px;
+  align-self: start;
+}
+
+.registerPage .form {
+  gap: var(--crm-space-2);
 }
 
 .forgotPasswordLink {
