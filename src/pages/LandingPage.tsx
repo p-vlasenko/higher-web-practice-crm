@@ -4,10 +4,9 @@ import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
 import LogoFullIcon from '../assets/icons/logo/logo-full.svg?react';
-import { useGetUsersQuery } from '../api/endpoints/crmEndpoints';
+import { useGetUserByCredentialsMutation } from '../api/endpoints/crmEndpoints';
 import { useAppDispatch } from '../app/hooks';
 import { CrmPasswordInput, CrmTextInput } from '../components/ui/FormFields';
-import { findUserByCredentials } from '../features/auth/authService';
 import {
   loginSchema,
   type LoginFormValues,
@@ -18,7 +17,7 @@ import classes from './Page.module.css';
 export function LandingPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { data: users = [] } = useGetUsersQuery();
+  const [getUserByCredentials] = useGetUserByCredentialsMutation();
   const {
     control,
     handleSubmit,
@@ -29,14 +28,20 @@ export function LandingPage() {
     defaultValues: { email: '', password: '' },
   });
 
-  const onSubmit = (values: LoginFormValues) => {
-    const user = findUserByCredentials(users, values);
-    if (!user) {
-      setError('password', { message: 'Неверный email или пароль' });
-      return;
+  const onSubmit = async (values: LoginFormValues) => {
+    try {
+      const user = await getUserByCredentials(values).unwrap();
+
+      if (!user) {
+        setError('password', { message: 'Неверный email или пароль' });
+        return;
+      }
+
+      dispatch(loginSucceeded(user));
+      navigate('/dashboard');
+    } catch {
+      setError('password', { message: 'Не удалось выполнить вход' });
     }
-    dispatch(loginSucceeded(user));
-    navigate('/dashboard');
   };
 
   return (

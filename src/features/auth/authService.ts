@@ -1,12 +1,4 @@
-import type { LoginPayload, RegisterPayload, User } from '../../types/user';
-
-export function findUserByCredentials(users: User[], payload: LoginPayload) {
-  return users.find(
-    (user) =>
-      user.email.toLowerCase() === payload.email.toLowerCase() &&
-      user.password === payload.password,
-  );
-}
+import type { RegisterPayload, User } from '../../types/user';
 
 export function isEmailTaken(
   users: User[],

@@ -1,3 +1,4 @@
+export { useGetUserByCredentialsMutation } from './authEndpoints';
 export {
   useCreateUserMutation,
   useDeleteUserMutation,
