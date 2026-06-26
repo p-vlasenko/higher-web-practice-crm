@@ -1028,8 +1028,8 @@
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto 1fr auto;
     align-content: stretch;
-    width: 335px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 335px;
     min-height: calc(100vh - 40px);
     margin: 0 auto;
   }
