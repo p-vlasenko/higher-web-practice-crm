@@ -129,6 +129,7 @@ export function ClientModal({
           control={control}
           render={({ field }) => (
             <CrmTextInput
+              required
               readOnly={readonly}
               label='Имя'
               placeholder='Добрыня'
@@ -143,6 +144,7 @@ export function ClientModal({
             control={control}
             render={({ field }) => (
               <CrmTextInput
+                required
                 readOnly={readonly}
                 label='Телефон'
                 placeholder='+7 915 876-54-32'
@@ -156,6 +158,7 @@ export function ClientModal({
             control={control}
             render={({ field }) => (
               <CrmTextInput
+                required
                 readOnly={readonly}
                 label='Компания'
                 placeholder='Доброград'
@@ -184,6 +187,7 @@ export function ClientModal({
             control={control}
             render={({ field }) => (
               <CrmTextInput
+                required
                 readOnly={readonly}
                 label='Email'
                 placeholder='dobrinia@yandex.ru'
@@ -199,6 +203,7 @@ export function ClientModal({
             control={control}
             render={({ field }) => (
               <CrmTextInput
+                required
                 type='date'
                 label='Дата создания'
                 error={errors.createdAt?.message}

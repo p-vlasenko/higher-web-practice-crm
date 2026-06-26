@@ -90,6 +90,7 @@ export function TaskModal({
             control={control}
             render={({ field }) => (
               <CrmTextInput
+                required
                 label='Название'
                 placeholder='Позвонить клиенту'
                 error={errors.title?.message}
@@ -117,6 +118,7 @@ export function TaskModal({
             control={control}
             render={({ field }) => (
               <CrmSelect
+                required
                 label='Исполнитель'
                 data={assigneeOptions}
                 error={errors.assigneeId?.message}
@@ -129,6 +131,7 @@ export function TaskModal({
             control={control}
             render={({ field }) => (
               <CrmSelect
+                required
                 label='Статус'
                 data={Object.entries(taskStatusLabels).map(
                   ([value, label]) => ({ value, label }),

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useEffect } from 'react';
 
 import {
@@ -51,6 +51,7 @@ export function DealModal({
     resolver: zodResolver(dealSchema),
     defaultValues: defaults,
   });
+  const status = useWatch({ control, name: 'status' });
 
   useEffect(() => {
     reset(
@@ -86,6 +87,7 @@ export function DealModal({
             control={control}
             render={({ field }) => (
               <CrmTextInput
+                required
                 label='Название'
                 placeholder='Заключение договора'
                 error={errors.title?.message}
@@ -98,6 +100,7 @@ export function DealModal({
             control={control}
             render={({ field }) => (
               <CrmSelect
+                required
                 label='Клиент'
                 data={clientOptions}
                 placeholder='Велимир'
@@ -113,6 +116,7 @@ export function DealModal({
             control={control}
             render={({ field }) => (
               <CrmNumberInput
+                required
                 label='Сумма'
                 placeholder='50 000 ₽'
                 error={errors.amount?.message}
@@ -125,6 +129,7 @@ export function DealModal({
             control={control}
             render={({ field }) => (
               <CrmSelect
+                required
                 label='Статус'
                 data={Object.entries(dealStatusLabels).map(
                   ([value, label]) => ({ value, label }),
@@ -142,6 +147,7 @@ export function DealModal({
               control={control}
               render={({ field }) => (
                 <CrmTextInput
+                  required
                   type='date'
                   label='Дата создания'
                   error={errors.createdAt?.message}
@@ -154,6 +160,7 @@ export function DealModal({
               control={control}
               render={({ field }) => (
                 <CrmTextInput
+                  required={status === 'completed'}
                   type='date'
                   label='Дата завершения'
                   error={errors.completedAt?.message}
