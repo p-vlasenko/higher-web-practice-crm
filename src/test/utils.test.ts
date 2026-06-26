@@ -12,6 +12,16 @@ import {
   createTaskTableRows,
 } from '../utils/relationReadModels';
 
+const adaUser = {
+  id: 'u1',
+  accountName: 'ada',
+  email: 'ada@example.test',
+  firstName: 'Ada',
+  lastName: 'Lovelace',
+  password: 'password',
+  createdAt: '2026-06-01',
+};
+
 describe('shared utilities', () => {
   it('formats currency and phone values', () => {
     expect(formatCurrency(120000)).toContain('120');
@@ -87,14 +97,7 @@ describe('shared utilities', () => {
         },
       ],
       dealRows,
-      [
-        {
-          id: 'u1',
-          name: 'Ada Lovelace',
-          email: 'ada@example.test',
-          createdAt: '2026-06-01',
-        },
-      ],
+      [adaUser],
     );
 
     expect(taskRows.map((task) => [task.dealTitle, task.assigneeName])).toEqual(
@@ -135,14 +138,7 @@ describe('shared utilities', () => {
     ).toEqual([{ value: 'd1', label: 'Big Renewal' }]);
 
     expect(
-      createUserOptions([
-        {
-          id: 'u1',
-          name: 'Ada Lovelace',
-          email: 'ada@example.test',
-          createdAt: '2026-06-01',
-        },
-      ]),
+      createUserOptions([adaUser]),
     ).toEqual([{ value: 'u1', label: 'Ada Lovelace' }]);
   });
 });
