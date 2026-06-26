@@ -13,7 +13,7 @@ import modalClasses from '../../components/ui/ui.module.css';
 import type { Deal } from '../../types/deal';
 import type { EntityOption } from '../../types/options';
 import { dealStatusLabels } from '../../utils/formatters';
-import { dealSchema, type DealFormValues } from './dealSchemas';
+import { dealSchema, dealStatuses, type DealFormValues } from './dealSchemas';
 
 type DealModalProps = {
   opened: boolean;
@@ -44,6 +44,17 @@ const getDealFormValues = (deal?: Deal | null): DealFormValues =>
       }
     : createDealDefaults();
 
+function getNextDate(value?: string) {
+  if (!value) return undefined;
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return undefined;
+
+  date.setDate(date.getDate() + 1);
+
+  return date.toISOString().slice(0, 10);
+}
+
 export function DealModal({
   opened,
   deal,
@@ -56,16 +67,26 @@ export function DealModal({
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<DealFormValues>({
     resolver: zodResolver(dealSchema),
     defaultValues: createDealDefaults(),
   });
   const status = useWatch({ control, name: 'status' });
+  const createdAt = useWatch({ control, name: 'createdAt' });
+  const completionMinDate = getNextDate(createdAt);
+  const isCompleted = status === 'completed';
 
   useEffect(() => {
     reset(getDealFormValues(deal));
   }, [deal, reset]);
+
+  useEffect(() => {
+    if (!isCompleted) {
+      setValue('completedAt', '');
+    }
+  }, [isCompleted, setValue]);
 
   const closeModal = () => {
     onClose();
@@ -148,9 +169,10 @@ export function DealModal({
                 <CrmSelect
                   required
                   label='Статус'
-                  data={Object.entries(dealStatusLabels).map(
-                    ([value, label]) => ({ value, label }),
-                  )}
+                  data={dealStatuses.map((value) => ({
+                    value,
+                    label: dealStatusLabels[value],
+                  }))}
                   error={errors.status?.message}
                   {...field}
                 />
@@ -158,7 +180,7 @@ export function DealModal({
             />
           </div>
         </div>
-        {deal ? (
+        {isCompleted ? (
           <div className={modalClasses.modalFieldRow}>
             <div className={modalClasses.modalField}>
               <Controller
@@ -181,9 +203,10 @@ export function DealModal({
                 control={control}
                 render={({ field }) => (
                   <CrmTextInput
-                    required={status === 'completed'}
+                    required
                     type='date'
                     label='Дата завершения'
+                    min={completionMinDate}
                     error={errors.completedAt?.message}
                     {...field}
                   />

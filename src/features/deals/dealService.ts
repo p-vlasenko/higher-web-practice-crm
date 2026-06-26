@@ -1,6 +1,12 @@
 import type { Deal } from '../../types/deal';
 import type { DealFormValues } from './dealSchemas';
 
+function getCompletedAt(values: DealFormValues) {
+  return values.status === 'completed' && values.completedAt
+    ? new Date(values.completedAt).toISOString()
+    : undefined;
+}
+
 export function toDealPayload(
   values: DealFormValues,
   userId: string,
@@ -13,9 +19,19 @@ export function toDealPayload(
     amount: Number(values.amount),
     status: values.status,
     createdAt: new Date(values.createdAt).toISOString(),
-    completedAt: values.completedAt
-      ? new Date(values.completedAt).toISOString()
-      : undefined,
+    completedAt: getCompletedAt(values),
     createdBy: userId,
+  };
+}
+
+export function toDealUpdatePayload(values: DealFormValues) {
+  return {
+    title: values.title,
+    clientId: values.clientId,
+    description: values.description,
+    amount: Number(values.amount),
+    status: values.status,
+    createdAt: new Date(values.createdAt).toISOString(),
+    completedAt: getCompletedAt(values),
   };
 }

@@ -11,7 +11,7 @@ import { usePagedQueryState } from '../../components/table/usePagedQueryState';
 import type { Deal, DealSortKey } from '../../types/deal';
 import { DealModal } from './DealModal';
 import { DealsTable } from './DealsTable';
-import { toDealPayload } from './dealService';
+import { toDealPayload, toDealUpdatePayload } from './dealService';
 
 const dealsPageSize = 15;
 
@@ -79,8 +79,7 @@ export function DealsController() {
           if (selected) {
             await updateDeal({
               id: selected.id,
-              ...values,
-              amount: Number(values.amount),
+              ...toDealUpdatePayload(values),
             });
           } else {
             await createDeal(toDealPayload(values, userId));

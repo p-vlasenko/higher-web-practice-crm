@@ -23,4 +23,39 @@ describe('deal schema validation', () => {
       }).success,
     ).toBe(false);
   });
+
+  test('requires completion date after creation date for completed deals', () => {
+    expect(
+      dealSchema.safeParse({
+        title: 'Deal',
+        clientId: 'client',
+        amount: 0,
+        status: 'completed',
+        createdAt: '2026-01-01',
+        completedAt: '2026-01-02',
+      }).success,
+    ).toBe(true);
+
+    expect(
+      dealSchema.safeParse({
+        title: 'Deal',
+        clientId: 'client',
+        amount: 0,
+        status: 'completed',
+        createdAt: '2026-01-01',
+        completedAt: '2026-01-01',
+      }).success,
+    ).toBe(false);
+
+    expect(
+      dealSchema.safeParse({
+        title: 'Deal',
+        clientId: 'client',
+        amount: 0,
+        status: 'completed',
+        createdAt: '2026-01-02',
+        completedAt: '2026-01-01',
+      }).success,
+    ).toBe(false);
+  });
 });

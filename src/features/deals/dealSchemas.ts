@@ -32,10 +32,10 @@ export const dealSchema = z
   .refine(
     (value) =>
       !value.completedAt ||
-      new Date(value.completedAt) >= new Date(value.createdAt),
+      new Date(value.completedAt) > new Date(value.createdAt),
     {
       path: ['completedAt'],
-      message: 'Дата завершения не может быть раньше создания',
+      message: 'Дата завершения должна быть позже даты создания',
     },
   );
 
