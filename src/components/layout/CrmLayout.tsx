@@ -24,8 +24,8 @@ const navItems = [
   { to: '/dashboard', label: 'Главная', Icon: HomeIcon },
   { to: '/clients', label: 'Клиенты', Icon: TeamIcon },
   { to: '/deals', label: 'Сделки', Icon: BriefcaseIcon },
-  { to: '/reports', label: 'Отчёты', Icon: ProjectIcon },
   { to: '/tasks', label: 'Задачи', Icon: TaskIcon },
+  { to: '/reports', label: 'Отчёты', Icon: ProjectIcon },
 ];
 
 export function CrmLayout() {

@@ -5,14 +5,13 @@ import type {
   OverdueTaskReportRow,
   SalesReportRow,
 } from '../../types/reports';
-import type { DealStatus } from '../../types/deal';
-import type { TaskStatus } from '../../types/task';
+import { StatusBadge } from '../../components/ui/StatusBadge';
+import { getDealStatusTone } from '../../components/ui/statusTones';
 import {
   dealStatusLabels,
   formatCurrency,
   formatDate,
 } from '../../utils/formatters';
-import classes from '../../pages/ReportsPage.module.css';
 import type { ReportColumn, ReportTableRow } from './reportTypes';
 
 export const salesReportColumns: ReportColumn[] = [
@@ -51,19 +50,6 @@ export const overdueTaskReportColumns: ReportColumn[] = [
   { key: 'dueDate', label: 'Дата срока выполнения' },
 ];
 
-const statusToneByDealStatus: Record<DealStatus, string> = {
-  new: '',
-  in_progress: classes.statusBlue,
-  completed: classes.statusSuccess,
-  cancelled: classes.statusWarning,
-};
-
-const statusToneByTaskStatus: Record<TaskStatus, string> = {
-  new: classes.statusError,
-  in_progress: classes.statusError,
-  completed: classes.statusError,
-};
-
 export function toSalesReportTableRows(
   rows: SalesReportRow[],
 ): ReportTableRow[] {
@@ -86,9 +72,9 @@ export function toStageReportTableRows(
 
     return {
       cells: [
-        <span className={statusToneByDealStatus[stage]} key={stage}>
+        <StatusBadge key={stage} tone={getDealStatusTone(stage)}>
           {dealStatusLabels[stage]}
-        </span>,
+        </StatusBadge>,
         row.dealsCount,
         formatCurrency(row.totalAmount),
       ],
@@ -125,9 +111,9 @@ export function toOverdueTaskReportTableRows(
       row.taskId,
       row.title,
       row.assigneeName,
-      <span className={statusToneByTaskStatus[row.status]} key={row.taskId}>
+      <StatusBadge key={row.taskId} tone='danger'>
         Просрочена
-      </span>,
+      </StatusBadge>,
       formatDate(row.dueDate),
     ],
   }));

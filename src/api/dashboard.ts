@@ -2,6 +2,7 @@ import type { Client } from '../types/client';
 import type { DashboardResponse } from '../types/dashboard';
 import type { Deal } from '../types/deal';
 import type { Task } from '../types/task';
+import { isActiveClient } from '../utils/clients';
 import { isWithinPeriod } from '../utils/periods';
 
 const previewLimit = 10;
@@ -16,7 +17,7 @@ export function buildDashboardData(
   tasks: Task[],
   now = new Date(),
 ): DashboardResponse {
-  const activeClients = clients.filter((client) => client.deleted !== true);
+  const activeClients = clients.filter(isActiveClient);
   const activeDeals = deals.filter(isActiveDeal);
 
   const completedDeals = deals.filter((deal) => deal.status === 'completed');
@@ -27,11 +28,21 @@ export function buildDashboardData(
   ) =>
     items.filter((item) => isWithinPeriod(item.createdAt, period, now)).length;
 
-  const dealCountByClientId = Object.fromEntries(
-    clients.map((client) => [
-      client.id,
-      deals.filter((deal) => deal.clientId === client.id).length,
-    ]),
+  const dealCountByClientId = clients.reduce<Record<string, number>>(
+    (counts, client) => {
+      counts[client.id] = deals.filter((deal) => deal.clientId === client.id)
+        .length;
+      return counts;
+    },
+    {},
+  );
+
+  const dealTitleById = deals.reduce<Record<string, string>>(
+    (titles, deal) => {
+      titles[deal.id] = deal.title;
+      return titles;
+    },
+    {},
   );
 
   return {
@@ -45,9 +56,7 @@ export function buildDashboardData(
     ).length,
     dealCountByClientId,
     deals,
-    dealTitleById: Object.fromEntries(
-      deals.map((deal) => [deal.id, deal.title]),
-    ),
+    dealTitleById,
     recentDeals: activeDeals
       .sort(
         (a, b) =>
@@ -90,7 +99,7 @@ export function buildDashboardData(
     topActiveDeals: [...activeDeals]
       .sort((a, b) => b.amount - a.amount)
       .slice(0, previewLimit),
-    topClients: clients
+    topClients: activeClients
       .map((client) => ({
         client,
         count: dealCountByClientId[client.id] ?? 0,

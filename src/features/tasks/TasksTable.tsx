@@ -2,6 +2,8 @@ import {
   PagedEntityTable,
   type PagedEntityColumn,
 } from '../../components/table/PagedEntityTable';
+import { StatusBadge } from '../../components/ui/StatusBadge';
+import { getTaskStatusTone } from '../../components/ui/statusTones';
 import { cx } from 'classix';
 import type { TaskSortKey, TaskStatus } from '../../types/task';
 import { formatDate, taskStatusLabels } from '../../utils/formatters';
@@ -24,10 +26,16 @@ type TasksTableProps = {
   onRowClick: (task: TaskTableRow) => void;
 };
 
-const statusClassByStatus: Record<TaskStatus, string> = {
-  new: classes.statusNew,
-  in_progress: classes.statusInProgress,
-  completed: classes.statusCompleted,
+const rowClassByStatus: Record<TaskStatus, string> = {
+  new: classes.rowNew,
+  in_progress: classes.rowInProgress,
+  completed: classes.rowCompleted,
+};
+
+const mobileCardClassByStatus: Record<TaskStatus, string> = {
+  new: classes.mobileCardNew,
+  in_progress: classes.mobileCardInProgress,
+  completed: classes.mobileCardCompleted,
 };
 
 function createTaskColumns(): PagedEntityColumn<TaskTableRow, TaskSortKey>[] {
@@ -66,9 +74,9 @@ function createTaskColumns(): PagedEntityColumn<TaskTableRow, TaskSortKey>[] {
       label: 'Статус',
       cellClassName: classes.statusCell,
       render: (task) => (
-        <span className={statusClassByStatus[task.status]}>
+        <StatusBadge tone={getTaskStatusTone(task.status)}>
           {taskStatusLabels[task.status]}
-        </span>
+        </StatusBadge>
       ),
     },
     {
@@ -106,14 +114,12 @@ export function TasksTable({
       filteredEmptyText='Задачи не найдены'
       getItemKey={(task) => task.id}
       items={tasks}
-      mobileCardClassName={(_task, index) =>
-        cx(classes.mobileCard, index !== 0 && classes.mobileCardHighlighted)
+      mobileCardClassName={(task) =>
+        cx(classes.mobileCard, mobileCardClassByStatus[task.status])
       }
       mobileCreateButtonClassName={classes.mobileNewTaskButton}
       renderMobileCard={renderMobileTaskCard}
-      rowClassName={(_task, index) =>
-        cx(classes.row, index !== 0 && classes.rowHighlighted)
-      }
+      rowClassName={(task) => cx(classes.row, rowClassByStatus[task.status])}
       search={search}
       searchAriaLabel='Искать задачи'
       sort={sort}
@@ -136,11 +142,12 @@ function renderMobileTaskCard(task: TaskTableRow) {
           <span className={classes.mobileTitle}>{task.title}</span>
           <span className={classes.mobileProject}>{task.dealTitle}</span>
         </span>
-        <span
-          className={cx(classes.mobileStatus, statusClassByStatus[task.status])}
+        <StatusBadge
+          className={classes.mobileStatus}
+          tone={getTaskStatusTone(task.status)}
         >
           {taskStatusLabels[task.status]}
-        </span>
+        </StatusBadge>
       </span>
       <span className={classes.mobileDescription}>{task.description}</span>
       <span className={classes.mobileDueDate}>

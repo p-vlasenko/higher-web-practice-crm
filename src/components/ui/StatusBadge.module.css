@@ -1,0 +1,38 @@
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-height: 24px;
+  padding: 4px 8px;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: var(--crm-radius-button);
+}
+
+.statusNew {
+  color: var(--crm-blue-700);
+  background: var(--crm-blue-100);
+}
+
+.statusInProgress {
+  color: var(--crm-blue-700);
+  background: var(--crm-white);
+}
+
+.statusCompleted {
+  color: var(--crm-green-500);
+  background: var(--crm-green-100);
+}
+
+.statusCancelled {
+  color: var(--crm-yellow-500);
+  background: var(--crm-yellow-100);
+}
+
+.statusDanger {
+  color: var(--crm-red-500);
+  background: var(--crm-red-100);
+}

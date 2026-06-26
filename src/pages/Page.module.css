@@ -319,6 +319,26 @@
   background: var(--crm-blue-100);
 }
 
+.dealPreviewRow.statusSurfaceInProgress:nth-child(even) {
+  background: var(--crm-white);
+}
+
+.statusSurfaceNew {
+  background: var(--crm-blue-100);
+}
+
+.statusSurfaceCompleted {
+  background: var(--crm-green-100);
+}
+
+.statusSurfaceCancelled {
+  background: var(--crm-yellow-100);
+}
+
+.statusSurfaceInProgress {
+  background: var(--crm-white);
+}
+
 .dealTitle,
 .dealMeta,
 .dealAmount,
@@ -344,7 +364,7 @@
 }
 
 .dealStatus {
-  color: var(--crm-blue-500);
+  justify-self: start;
 }
 
 .taskCardGrid {
@@ -366,6 +386,21 @@
   background: var(--crm-green-100);
 }
 
+.taskPreviewCard.statusSurfaceInProgress:nth-child(2n),
+.taskPreviewCard.statusSurfaceInProgress:nth-child(3n) {
+  background: var(--crm-white);
+}
+
+.taskPreviewCard.statusSurfaceNew:nth-child(2n),
+.taskPreviewCard.statusSurfaceNew:nth-child(3n) {
+  background: var(--crm-blue-100);
+}
+
+.taskPreviewCard.statusSurfaceCompleted:nth-child(2n),
+.taskPreviewCard.statusSurfaceCompleted:nth-child(3n) {
+  background: var(--crm-green-100);
+}
+
 .taskType {
   margin: 2px 0 0;
   color: var(--crm-gray-400);
@@ -375,11 +410,8 @@
 }
 
 .taskStatus {
+  justify-self: start;
   margin: 0;
-  color: var(--crm-green-500);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
 }
 
 .dashboardButton {
@@ -551,6 +583,22 @@
   background: var(--crm-blue-100);
 }
 
+.mobileDealCard.statusSurfaceInProgress:nth-child(even) {
+  background: var(--crm-white);
+}
+
+.mobileDealCard.statusSurfaceNew:nth-child(even) {
+  background: var(--crm-blue-100);
+}
+
+.mobileDealCard.statusSurfaceCompleted:nth-child(even) {
+  background: var(--crm-green-100);
+}
+
+.mobileDealCard.statusSurfaceCancelled:nth-child(even) {
+  background: var(--crm-yellow-100);
+}
+
 .mobileTaskCard {
   gap: 0;
   min-height: 122px;
@@ -562,6 +610,21 @@
 }
 
 .mobileTaskCard:nth-child(3n) {
+  background: var(--crm-green-100);
+}
+
+.mobileTaskCard.statusSurfaceInProgress:nth-child(2n),
+.mobileTaskCard.statusSurfaceInProgress:nth-child(3n) {
+  background: var(--crm-white);
+}
+
+.mobileTaskCard.statusSurfaceNew:nth-child(2n),
+.mobileTaskCard.statusSurfaceNew:nth-child(3n) {
+  background: var(--crm-blue-100);
+}
+
+.mobileTaskCard.statusSurfaceCompleted:nth-child(2n),
+.mobileTaskCard.statusSurfaceCompleted:nth-child(3n) {
   background: var(--crm-green-100);
 }
 
@@ -619,9 +682,6 @@
 
 .mobileDealStatus {
   margin: 0;
-  color: var(--crm-blue-500);
-  font-size: 12px;
-  line-height: 16px;
 }
 
 .mobileDealMetaRow {
@@ -653,9 +713,6 @@
 
 .mobileTaskStatus {
   margin: 0;
-  color: var(--crm-green-500);
-  font-size: 14px;
-  line-height: 20px;
 }
 
 .mobileDashboardButton {

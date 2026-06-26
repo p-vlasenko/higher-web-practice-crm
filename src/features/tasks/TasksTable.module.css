@@ -156,8 +156,16 @@
   min-height: 64px;
 }
 
-.rowHighlighted {
+.rowNew {
   background: var(--crm-blue-100);
+}
+
+.rowCompleted {
+  background: var(--crm-green-100);
+}
+
+.rowInProgress {
+  background: var(--crm-white);
 }
 
 .row:hover {
@@ -186,18 +194,6 @@
 .statusCell {
   font-size: 12px;
   line-height: 16px;
-}
-
-.statusInProgress {
-  color: var(--crm-blue-700);
-}
-
-.statusNew {
-  color: var(--crm-gray-800);
-}
-
-.statusCompleted {
-  color: var(--crm-green-500);
 }
 
 .empty {
@@ -270,9 +266,19 @@
     box-shadow: 0 4px 8px var(--crm-gray-200);
   }
 
-  .mobileCardHighlighted {
+  .mobileCardNew {
     min-height: 198px;
     background: var(--crm-blue-100);
+  }
+
+  .mobileCardCompleted {
+    min-height: 198px;
+    background: var(--crm-green-100);
+  }
+
+  .mobileCardInProgress {
+    min-height: 198px;
+    background: var(--crm-white);
   }
 
   .mobileCardHeader,

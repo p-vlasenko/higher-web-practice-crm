@@ -2,6 +2,7 @@ import type { Client } from '../../types/client';
 import type { Deal } from '../../types/deal';
 import type { EntityOption } from '../../types/options';
 import type { User } from '../../types/user';
+import { isActiveClient } from '../../utils/clients';
 import {
   createClientOptions,
   createDealOptions,
@@ -21,10 +22,6 @@ function normalizeParams(params: WithUser | void) {
   return params ?? undefined;
 }
 
-function selectActiveClients(clients: Client[]) {
-  return clients.filter((client) => client.deleted !== true);
-}
-
 export async function getClientOptions(
   params: GetClientOptionsParams,
   baseQuery: AdapterBaseQuery,
@@ -40,7 +37,7 @@ export async function getClientOptions(
 
   return {
     data: createClientOptions(
-      selectActiveClients(clientsResult.data as Client[]),
+      (clientsResult.data as Client[]).filter(isActiveClient),
     ),
   };
 }

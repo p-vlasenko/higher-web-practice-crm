@@ -2,6 +2,8 @@ import {
   PagedEntityTable,
   type PagedEntityColumn,
 } from '../../components/table/PagedEntityTable';
+import { StatusBadge } from '../../components/ui/StatusBadge';
+import { getDealStatusTone } from '../../components/ui/statusTones';
 import type { DealSortKey, DealStatus } from '../../types/deal';
 import {
   dealStatusLabels,
@@ -32,13 +34,6 @@ const rowClassByStatus: Record<DealStatus, string> = {
   in_progress: classes.rowInProgress,
   completed: classes.rowCompleted,
   cancelled: classes.rowCancelled,
-};
-
-const statusClassByStatus: Record<DealStatus, string> = {
-  new: classes.statusNew,
-  in_progress: classes.statusInProgress,
-  completed: classes.statusCompleted,
-  cancelled: classes.statusCancelled,
 };
 
 const mobileCardClassByStatus: Record<DealStatus, string> = {
@@ -73,9 +68,9 @@ function createDealColumns(): PagedEntityColumn<DealTableRow, DealSortKey>[] {
       label: 'Этап (статус)',
       cellClassName: classes.statusCell,
       render: (deal) => (
-        <span className={statusClassByStatus[deal.status]}>
+        <StatusBadge tone={getDealStatusTone(deal.status)}>
           {dealStatusLabels[deal.status]}
-        </span>
+        </StatusBadge>
       ),
     },
     {
@@ -150,11 +145,12 @@ function renderMobileDealCard(deal: DealTableRow) {
     <>
       <span className={classes.mobileCardHeader}>
         <span className={classes.mobileTitle}>{deal.title}</span>
-        <span
-          className={`${classes.mobileStatus} ${statusClassByStatus[deal.status]}`}
+        <StatusBadge
+          className={classes.mobileStatus}
+          tone={getDealStatusTone(deal.status)}
         >
           {dealStatusLabels[deal.status]}
-        </span>
+        </StatusBadge>
       </span>
       <span className={classes.mobileMetaRow}>
         <span className={classes.mobileClient}>{deal.clientName}</span>
