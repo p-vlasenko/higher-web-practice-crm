@@ -85,6 +85,7 @@ export function useProfileController() {
 
   useEffect(() => {
     if (!newPassword) {
+      form.setValue('currentPassword', '');
       form.setValue('passwordRepeat', '');
     }
   }, [form, newPassword]);

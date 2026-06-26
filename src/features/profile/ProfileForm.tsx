@@ -144,46 +144,52 @@ function ProfileIdentityFields({
   return (
     <>
       <div className={classes.profileGridRow}>
-        <Controller
-          name='firstName'
-          control={control}
-          render={({ field }) => (
-            <CrmTextInput
-              required
-              autoComplete='given-name'
-              label='Имя'
-              placeholder='Ярополк'
-              error={errors.firstName?.message}
-              {...field}
-              onChange={(event) => {
-                onClearFeedback();
-                field.onChange(event);
-              }}
-            />
-          )}
-        />
-        <Controller
-          name='lastName'
-          control={control}
-          render={({ field }) => (
-            <CrmTextInput
-              required
-              autoComplete='family-name'
-              label='Фамилия'
-              placeholder='Иванов'
-              error={errors.lastName?.message}
-              {...field}
-              onChange={(event) => {
-                onClearFeedback();
-                field.onChange(event);
-              }}
-            />
-          )}
-        />
+        <div className={classes.profileField}>
+          <Controller
+            name='firstName'
+            control={control}
+            render={({ field }) => (
+              <CrmTextInput
+                required
+                autoComplete='given-name'
+                label='Имя'
+                placeholder='Ярополк'
+                error={errors.firstName?.message}
+                {...field}
+                onChange={(event) => {
+                  onClearFeedback();
+                  field.onChange(event);
+                }}
+              />
+            )}
+          />
+        </div>
+        <div className={classes.profileField}>
+          <Controller
+            name='lastName'
+            control={control}
+            render={({ field }) => (
+              <CrmTextInput
+                required
+                autoComplete='family-name'
+                label='Фамилия'
+                placeholder='Иванов'
+                error={errors.lastName?.message}
+                {...field}
+                onChange={(event) => {
+                  onClearFeedback();
+                  field.onChange(event);
+                }}
+              />
+            )}
+          />
+        </div>
       </div>
 
       <div className={classes.profileGridRow}>
-        <div className={classes.profileFieldEmail}>
+        <div
+          className={`${classes.profileField} ${classes.profileFieldEmail}`}
+        >
           <Controller
             name='email'
             control={control}
@@ -204,7 +210,9 @@ function ProfileIdentityFields({
             )}
           />
         </div>
-        <div className={classes.profileFieldAccount}>
+        <div
+          className={`${classes.profileField} ${classes.profileFieldAccount}`}
+        >
           <Controller
             name='accountName'
             control={control}
@@ -235,65 +243,74 @@ function PasswordSection({
   newPassword,
   onClearFeedback,
 }: PasswordSectionProps) {
+  const isPasswordEditing = Boolean(newPassword);
+
   return (
     <section
       aria-labelledby='profile-password-title'
       className={classes.profilePassword}
     >
       <h2 id='profile-password-title'>Пароль</h2>
-      <Controller
-        name='currentPassword'
-        control={control}
-        render={({ field }) => (
-          <CrmPasswordInput
-            autoComplete='current-password'
-            label='Существующий пароль'
-            placeholder='*******'
-            error={errors.currentPassword?.message}
-            {...field}
-            onChange={(event) => {
-              onClearFeedback();
-              field.onChange(event);
-            }}
-          />
-        )}
-      />
+      <div className={classes.profilePasswordField}>
+        <Controller
+          name='currentPassword'
+          control={control}
+          render={({ field }) => (
+            <CrmPasswordInput
+              autoComplete='current-password'
+              disabled={!isPasswordEditing}
+              label='Существующий пароль'
+              placeholder='*******'
+              error={errors.currentPassword?.message}
+              {...field}
+              onChange={(event) => {
+                onClearFeedback();
+                field.onChange(event);
+              }}
+            />
+          )}
+        />
+      </div>
       <div className={classes.profileGridRow}>
-        <Controller
-          name='newPassword'
-          control={control}
-          render={({ field }) => (
-            <CrmPasswordInput
-              autoComplete='new-password'
-              label='Новый пароль'
-              placeholder='*******'
-              error={errors.newPassword?.message}
-              {...field}
-              onChange={(event) => {
-                onClearFeedback();
-                field.onChange(event);
-              }}
-            />
-          )}
-        />
-        <Controller
-          name='passwordRepeat'
-          control={control}
-          render={({ field }) => (
-            <CrmPasswordInput
-              autoComplete='new-password'
-              disabled={!newPassword}
-              label='Повторите пароль'
-              placeholder='*******'
-              error={errors.passwordRepeat?.message}
-              {...field}
-              onChange={(event) => {
-                onClearFeedback();
-                field.onChange(event);
-              }}
-            />
-          )}
-        />
+        <div className={classes.profilePasswordField}>
+          <Controller
+            name='newPassword'
+            control={control}
+            render={({ field }) => (
+              <CrmPasswordInput
+                autoComplete='new-password'
+                label='Новый пароль'
+                placeholder='*******'
+                error={errors.newPassword?.message}
+                {...field}
+                onChange={(event) => {
+                  onClearFeedback();
+                  field.onChange(event);
+                }}
+              />
+            )}
+          />
+        </div>
+        <div className={classes.profilePasswordField}>
+          <Controller
+            name='passwordRepeat'
+            control={control}
+            render={({ field }) => (
+              <CrmPasswordInput
+                autoComplete='new-password'
+                disabled={!isPasswordEditing}
+                label='Повторите пароль'
+                placeholder='*******'
+                error={errors.passwordRepeat?.message}
+                {...field}
+                onChange={(event) => {
+                  onClearFeedback();
+                  field.onChange(event);
+                }}
+              />
+            )}
+          />
+        </div>
       </div>
     </section>
   );
