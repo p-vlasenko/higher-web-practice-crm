@@ -137,8 +137,8 @@ describe('shared utilities', () => {
       ]),
     ).toEqual([{ value: 'd1', label: 'Big Renewal' }]);
 
-    expect(
-      createUserOptions([adaUser]),
-    ).toEqual([{ value: 'u1', label: 'Ada Lovelace' }]);
+    expect(createUserOptions([adaUser])).toEqual([
+      { value: 'u1', label: 'Ada Lovelace' },
+    ]);
   });
 });

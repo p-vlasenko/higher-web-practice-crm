@@ -30,20 +30,18 @@ export function buildDashboardData(
 
   const dealCountByClientId = clients.reduce<Record<string, number>>(
     (counts, client) => {
-      counts[client.id] = deals.filter((deal) => deal.clientId === client.id)
-        .length;
+      counts[client.id] = deals.filter(
+        (deal) => deal.clientId === client.id,
+      ).length;
       return counts;
     },
     {},
   );
 
-  const dealTitleById = deals.reduce<Record<string, string>>(
-    (titles, deal) => {
-      titles[deal.id] = deal.title;
-      return titles;
-    },
-    {},
-  );
+  const dealTitleById = deals.reduce<Record<string, string>>((titles, deal) => {
+    titles[deal.id] = deal.title;
+    return titles;
+  }, {});
 
   return {
     activeClients,

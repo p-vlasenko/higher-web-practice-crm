@@ -1,8 +1,5 @@
 import { getPeriodStart } from '../../utils/periods';
-import {
-  reportFilterSchema,
-  type ReportFilterValues,
-} from './reportSchemas';
+import { reportFilterSchema, type ReportFilterValues } from './reportSchemas';
 
 export const reportFilterDefaults = reportFilterSchema.parse({});
 

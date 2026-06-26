@@ -187,9 +187,7 @@ function ProfileIdentityFields({
       </div>
 
       <div className={classes.profileGridRow}>
-        <div
-          className={`${classes.profileField} ${classes.profileFieldEmail}`}
-        >
+        <div className={`${classes.profileField} ${classes.profileFieldEmail}`}>
           <Controller
             name='email'
             control={control}

@@ -58,7 +58,7 @@ export type OverdueTaskReportRow = {
 
 export type ReportQueryParams = QueryParams<ReportSortKey> &
   ReportFilterValues & {
-  userId?: string;
-};
+    userId?: string;
+  };
 
 export type ReportPage<Row> = Page<Row>;
