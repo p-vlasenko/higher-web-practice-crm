@@ -20,7 +20,9 @@ function readStoredUser(): User | null {
     if (
       typeof user.id === 'string' &&
       typeof user.email === 'string' &&
-      typeof user.name === 'string' &&
+      typeof user.firstName === 'string' &&
+      typeof user.lastName === 'string' &&
+      typeof user.accountName === 'string' &&
       typeof user.createdAt === 'string'
     ) {
       return user as User;

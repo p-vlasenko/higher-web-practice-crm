@@ -6,10 +6,12 @@ describe('auth flow behavior contract', () => {
   it('finds a user by valid credentials only', () => {
     const users = [
       {
+        accountName: 'manager',
         id: '1',
         email: 'manager@crm.ru',
         password: '123456',
-        name: 'Manager',
+        firstName: 'Manager',
+        lastName: 'User',
         createdAt: '2026-01-01',
       },
     ];

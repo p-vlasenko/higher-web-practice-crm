@@ -10,15 +10,31 @@ describe('auth schemas', () => {
         .success,
     ).toBe(true);
     expect(
-      registrationSchema.safeParse({ email: 'bad', password: '1', name: '' })
-        .success,
+      registrationSchema.safeParse({
+        accountName: '',
+        email: 'bad',
+        firstName: '',
+        lastName: '',
+        password: '1',
+        passwordRepeat: '2',
+      }).success,
     ).toBe(false);
   });
 
   it('detects duplicate email', () => {
     expect(
       isEmailTaken(
-        [{ id: '1', email: 'a@b.ru', name: 'A', createdAt: '2026-01-01' }],
+        [
+          {
+            accountName: 'a',
+            createdAt: '2026-01-01',
+            email: 'a@b.ru',
+            firstName: 'A',
+            id: '1',
+            lastName: 'User',
+            password: '123456',
+          },
+        ],
         'A@B.ru',
       ),
     ).toBe(true);

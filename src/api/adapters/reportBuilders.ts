@@ -4,6 +4,7 @@ import type { Task } from '../../types/task';
 import type { User } from '../../types/user';
 import { isDateInRange } from '../../utils/periods';
 import { isOverdue } from '../../utils/tasks';
+import { getUserDisplayName } from '../../utils/users';
 
 export function buildSalesRows(
   deals: Deal[],
@@ -96,13 +97,15 @@ export function buildOverdueTaskRows(
     .filter(
       (task) => isOverdue(task, now) && isDateInRange(task.dueDate, from, to),
     )
-    .map((task) => ({
-      taskId: task.id,
-      title: task.title,
-      assigneeName:
-        users.find((user) => user.id === task.assigneeId)?.name ??
-        'Не назначен',
-      dueDate: task.dueDate ?? '',
-      status: task.status,
-    }));
+    .map((task) => {
+      const assignee = users.find((user) => user.id === task.assigneeId);
+
+      return {
+        taskId: task.id,
+        title: task.title,
+        assigneeName: assignee ? getUserDisplayName(assignee) : 'Не назначен',
+        dueDate: task.dueDate ?? '',
+        status: task.status,
+      };
+    });
 }

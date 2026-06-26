@@ -8,7 +8,9 @@ export function toProfilePayload(
   users: User[],
   currentUser: User,
 ): UpdateProfilePayload {
-  if (isEmailTaken(users, values.email, currentUser.id)) {
+  const email = values.email.trim().toLowerCase();
+
+  if (isEmailTaken(users, email, currentUser.id)) {
     throw new Error('Email уже используется');
   }
 
@@ -17,8 +19,10 @@ export function toProfilePayload(
   }
 
   return {
-    email: values.email,
-    name: values.name,
+    accountName: values.accountName.trim(),
+    email,
+    firstName: values.firstName.trim(),
+    lastName: values.lastName.trim(),
     password: values.newPassword || undefined,
   };
 }

@@ -18,6 +18,45 @@ import {
 import { loginSucceeded } from '../features/auth/sessionSlice';
 import classes from './Page.module.css';
 
+const registerPageClassName = [classes.authPage, classes.registerPage].join(
+  ' ',
+);
+
+const registrationDefaultValues: RegistrationFormValues = {
+  accountName: '',
+  email: '',
+  firstName: '',
+  lastName: '',
+  password: '',
+  passwordRepeat: '',
+};
+
+const registerPageIntro =
+  'Платформа для управления клиентами, сделками и задачами. Эффективно управляйте бизнес-процессами, отслеживайте ключевые показатели и выстраивайте продуктивные отношения с клиентами.';
+
+function LoginLink({ children = 'Войти в аккаунт' }: { children?: string }) {
+  return <Link to='/'>{children}</Link>;
+}
+
+function RegisterBrandPanel() {
+  return (
+    <div className={classes.brandPanel}>
+      <LogoFullIcon aria-label='YaPlex CRM' className={classes.authLogo} />
+      <div className={classes.registerBrandCopy}>
+        <Text>{registerPageIntro}</Text>
+        <div className={classes.authPrompt}>
+          <Text size='sm' c='dimmed'>
+            Уже зарегистрированы?
+          </Text>
+          <Text size='sm' fw={700}>
+            <LoginLink />
+          </Text>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function RegisterPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -32,7 +71,7 @@ export function RegisterPage() {
     formState: { errors },
   } = useForm<RegistrationFormValues>({
     resolver: zodResolver(registrationSchema),
-    defaultValues: { email: '', password: '', name: '' },
+    defaultValues: registrationDefaultValues,
   });
 
   const onSubmit = async (values: RegistrationFormValues) => {
@@ -48,29 +87,32 @@ export function RegisterPage() {
   };
 
   return (
-    <main className={`${classes.authPage} ${classes.registerPage}`}>
+    <main className={registerPageClassName}>
       <section className={classes.authLayout}>
-        <div className={classes.brandPanel}>
-          <LogoFullIcon aria-label='YaPlex CRM' className={classes.authLogo} />
-          <Text>
-            Создайте аккаунт и начните вести клиентов, сделки и задачи в едином
-            рабочем пространстве.
-          </Text>
-          <Text size='sm' c='dimmed'>
-            Уже есть аккаунт? <Link to='/'>Войти</Link>
-          </Text>
-        </div>
+        <RegisterBrandPanel />
         <form className={classes.authCard} onSubmit={handleSubmit(onSubmit)}>
           <Title order={2}>Регистрация</Title>
           <div className={classes.form}>
             <Controller
-              name='name'
+              name='firstName'
               control={control}
               render={({ field }) => (
                 <CrmTextInput
-                  required
                   label='Имя'
-                  error={errors.name?.message}
+                  placeholder='Ярополк'
+                  error={errors.firstName?.message}
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              name='lastName'
+              control={control}
+              render={({ field }) => (
+                <CrmTextInput
+                  label='Фамилия'
+                  placeholder='Иванов'
+                  error={errors.lastName?.message}
                   {...field}
                 />
               )}
@@ -80,9 +122,21 @@ export function RegisterPage() {
               control={control}
               render={({ field }) => (
                 <CrmTextInput
-                  required
                   label='Email'
+                  placeholder='ivanov@yandex.ru'
                   error={errors.email?.message}
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              name='accountName'
+              control={control}
+              render={({ field }) => (
+                <CrmTextInput
+                  label='Имя аккаунта'
+                  placeholder='Yaropolk'
+                  error={errors.accountName?.message}
                   {...field}
                 />
               )}
@@ -92,9 +146,21 @@ export function RegisterPage() {
               control={control}
               render={({ field }) => (
                 <CrmPasswordInput
-                  required
-                  label='Пароль'
+                  label='Придумайте пароль'
+                  placeholder='******'
                   error={errors.password?.message}
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              name='passwordRepeat'
+              control={control}
+              render={({ field }) => (
+                <CrmPasswordInput
+                  label='Повторите пароль'
+                  placeholder='******'
+                  error={errors.passwordRepeat?.message}
                   {...field}
                 />
               )}
@@ -110,7 +176,7 @@ export function RegisterPage() {
         </form>
         <div className={classes.mobileRegistrationRedirect}>
           <span>Уже зарегистрированы?</span>
-          <Link to='/'>Войти в аккаунт</Link>
+          <LoginLink />
         </div>
       </section>
     </main>

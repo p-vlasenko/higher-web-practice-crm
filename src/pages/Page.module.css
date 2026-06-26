@@ -7,7 +7,7 @@
   min-height: 100vh;
   padding: 32px 130px;
   background-color: var(--crm-white);
-  background-image: url('../../assets/icons/background.svg');
+  background-image: url('../assets/icons/background.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -40,6 +40,20 @@
 }
 
 .brandCopy {
+  display: grid;
+  gap: 0;
+}
+
+.registerBrandCopy {
+  display: grid;
+  gap: var(--crm-space-10);
+}
+
+.registerBrandCopy p {
+  margin: 0;
+}
+
+.authPrompt {
   display: grid;
   gap: 0;
 }
@@ -703,89 +717,201 @@
 
 .profilePage {
   display: grid;
+  align-content: start;
   gap: 20px;
   width: 100%;
-  max-width: 696px;
+}
+
+.profileTitle {
+  margin: 0;
+  color: var(--crm-gray-800);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
 }
 
 .profileCard {
-  display: grid;
-  gap: 16px;
-  width: 100%;
-  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  width: min(100%, 680px);
+  min-height: 704px;
+  padding: 32px 24px;
   background: var(--crm-white);
   border-radius: var(--crm-radius-card);
   box-shadow: 0 4px 8px var(--crm-gray-200);
 }
 
+.profileContent {
+  display: grid;
+  gap: 32px;
+}
+
+.profileIdentity {
+  display: grid;
+  gap: 16px;
+}
+
+.profileAvatarGroup {
+  position: relative;
+  width: 112px;
+  height: 92px;
+}
+
 .profileAvatarPlaceholder {
   display: grid;
   place-items: center;
-  width: 96px;
-  height: 96px;
-  margin-bottom: 8px;
   color: var(--crm-white);
-  font-size: 42px;
-  font-weight: 700;
   line-height: 1;
+  background: var(--crm-blue-100);
+}
+
+.profileAvatarIcon {
+  width: 44px;
+  height: 44px;
+}
+
+.profileAvatarIcon path {
+  stroke: var(--crm-gray-800);
+}
+
+.profileAvatarButton {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: var(--crm-white);
+  line-height: 1;
+  cursor: not-allowed;
   background: var(--crm-blue-500);
+  border: 0;
   border-radius: 50%;
 }
 
-.profileCheckboxRoot {
-  min-height: 32px;
+.profileAvatarButton:disabled {
+  color: var(--crm-white);
+  background: var(--crm-blue-500);
 }
 
-.profileCheckboxInput {
-  cursor: not-allowed;
+.profileAvatarCameraIcon {
+  width: 24px;
+  height: 24px;
 }
 
-.profileCheckboxLabel {
-  color: var(--crm-gray-400);
+.profileGridRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 312px));
+  gap: 8px;
+}
+
+.profileFieldEmail,
+.profileFieldAccount {
+  min-width: 0;
+}
+
+.profilePassword {
+  display: grid;
+  gap: 12px;
+}
+
+.profilePassword h2 {
+  margin: 0;
+  color: var(--crm-gray-800);
   font-size: 16px;
+  font-weight: 700;
   line-height: 24px;
-  cursor: not-allowed;
+}
+
+.profilePassword > label {
+  width: 312px;
+}
+
+.profileFooter {
+  display: grid;
+  gap: 16px;
+}
+
+.profileFeedback {
+  min-height: 16px;
+}
+
+.profileSuccess,
+.profileRootError {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.profileSuccess {
+  color: var(--crm-green-500);
+}
+
+.profileRootError {
+  color: var(--crm-red-500);
 }
 
 .profileActions {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 113px;
+  justify-items: start;
   gap: 16px;
-  align-items: center;
-  height: 40px;
+  width: 100%;
 }
 
-.profileLogoutButton {
-  justify-self: start;
-  width: max-content;
-  margin-top: 8px;
+.profileSaveButton {
+  width: 312px;
+  height: 40px;
   padding: 0;
-  color: var(--crm-blue-500);
   font-size: 16px;
   font-weight: 700;
   line-height: 24px;
+}
+
+.profileAccountLinks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: end;
+  width: 100%;
+}
+
+.profileAccountLink {
+  padding: 0;
+  color: var(--crm-blue-500);
+  font-size: 12px;
+  line-height: 16px;
   text-align: left;
   cursor: pointer;
   background: transparent;
   border: 0;
 }
 
-.profileLogoutButton:hover {
+.profileAccountLink:last-child {
+  justify-self: end;
+  text-align: right;
+}
+
+.profileAccountLink:hover {
   color: var(--crm-blue-700);
 }
 
-.profileLogoutButton:focus-visible {
+.profileAccountLink:focus-visible {
   outline: 2px solid var(--crm-blue-500);
   outline-offset: 4px;
 }
 
-.profileSaveButton {
-  width: 100%;
-  height: 40px;
-  padding: 0;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 24px;
+.profileAccountLink:disabled {
+  color: var(--crm-blue-500);
+  cursor: not-allowed;
+}
+
+.profileAccountLink:disabled:hover {
+  color: var(--crm-blue-500);
 }
 
 .cardList {
@@ -818,7 +944,7 @@
     padding: 20px;
     overflow: hidden;
     background-color: var(--crm-white);
-    background-image: url('../../assets/icons/background.mobile.svg');
+    background-image: url('../assets/icons/background.mobile.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -868,6 +994,10 @@
   .loginPage .form,
   .registerPage .form {
     gap: 16px;
+  }
+
+  .registerPage .authCard {
+    gap: 32px;
   }
 
   .loginPage .authCard :global(.mantine-Input-input),
@@ -941,16 +1071,90 @@
   }
 
   .profilePage {
+    justify-items: center;
     max-width: none;
   }
 
+  .profileTitle {
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
   .profileCard {
-    padding: 24px;
+    gap: 12px;
+    width: min(100%, 335px);
+    min-height: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .profileContent {
+    gap: 32px;
+    padding: 24px 16px;
+    background: var(--crm-white);
+    border-radius: var(--crm-radius-card);
+    box-shadow: 0 4px 8px var(--crm-gray-200);
+  }
+
+  .profileAvatarGroup {
+    justify-self: center;
+  }
+
+  .profileGridRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .profileFieldAccount {
+    order: 1;
+  }
+
+  .profileFieldEmail {
+    order: 2;
+  }
+
+  .profilePassword > label {
+    width: 100%;
+  }
+
+  .profilePassword h2 {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .profileFooter {
+    gap: 0;
+  }
+
+  .profileFeedback {
+    min-height: 0;
   }
 
   .profileActions {
-    grid-template-columns: 1fr;
-    height: auto;
+    justify-items: stretch;
+    gap: 12px;
+  }
+
+  .profileSaveButton {
+    width: 100%;
+    height: 36px;
+    min-height: 36px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .profileAccountLinks {
+    width: 100%;
+  }
+
+  .profileAccountLink {
+    font-size: 16px;
+    line-height: 24px;
   }
 
   .metricsTable {

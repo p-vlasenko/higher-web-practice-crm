@@ -20,12 +20,14 @@ export function isEmailTaken(
   );
 }
 
-export function createUserPayload(
-  payload: RegisterPayload,
-): RegisterPayload & Pick<User, 'id' | 'createdAt'> {
+export function createUserPayload(payload: RegisterPayload): User {
   return {
-    ...payload,
+    accountName: payload.accountName.trim(),
+    email: payload.email.trim().toLowerCase(),
+    firstName: payload.firstName.trim(),
     id: crypto.randomUUID(),
+    lastName: payload.lastName.trim(),
+    password: payload.password,
     createdAt: new Date().toISOString(),
   };
 }

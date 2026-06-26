@@ -5,6 +5,7 @@ const config: Config = {
   setupFilesAfterEnv: ['<rootDir>/src/test/setupTests.ts'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '\\.svg\\?react$': '<rootDir>/__mocks__/svgReactMock.tsx',
     '\\.(svg|png|jpg|jpeg|gif|webp)$': '<rootDir>/__mocks__/fileMock.ts',
   },
   transform: {
@@ -19,6 +20,12 @@ const config: Config = {
           esModuleInterop: true,
           allowSyntheticDefaultImports: true,
           strict: true,
+          types: [
+            'vite/client',
+            'vite-plugin-svgr/client',
+            'jest',
+            '@testing-library/jest-dom',
+          ],
         },
         useESM: true,
       },

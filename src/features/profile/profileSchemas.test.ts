@@ -6,20 +6,24 @@ describe('profile schema', () => {
   test('allows empty password update and validates email', () => {
     expect(
       profileSchema.safeParse({
+        accountName: 'manager',
         email: 'manager@crm.ru',
-        name: 'Manager',
+        firstName: 'Manager',
+        lastName: 'User',
         currentPassword: '',
         newPassword: '',
-        repeatPassword: '',
+        passwordRepeat: '',
       }).success,
     ).toBe(true);
     expect(
       profileSchema.safeParse({
+        accountName: 'manager',
         email: 'bad',
-        name: 'Manager',
+        firstName: 'Manager',
+        lastName: 'User',
         currentPassword: '',
         newPassword: '',
-        repeatPassword: '',
+        passwordRepeat: '',
       }).success,
     ).toBe(false);
   });
@@ -27,20 +31,24 @@ describe('profile schema', () => {
   test('requires repeated password to match new password', () => {
     expect(
       profileSchema.safeParse({
+        accountName: 'manager',
         email: 'manager@crm.ru',
-        name: 'Manager',
+        firstName: 'Manager',
+        lastName: 'User',
         currentPassword: 'oldpass',
         newPassword: 'newpass',
-        repeatPassword: 'badpass',
+        passwordRepeat: 'badpass',
       }).success,
     ).toBe(false);
     expect(
       profileSchema.safeParse({
+        accountName: 'manager',
         email: 'manager@crm.ru',
-        name: 'Manager',
+        firstName: 'Manager',
+        lastName: 'User',
         currentPassword: 'oldpass',
         newPassword: 'newpass',
-        repeatPassword: 'newpass',
+        passwordRepeat: 'newpass',
       }).success,
     ).toBe(true);
   });

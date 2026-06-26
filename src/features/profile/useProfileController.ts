@@ -1,37 +1,47 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import {
-  useDeleteUserMutation,
   useGetUsersQuery,
   useUpdateUserMutation,
 } from '../../api/endpoints/crmEndpoints';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import type { User } from '../../types/user';
 import { logout, profileChanged } from '../auth/sessionSlice';
 import { profileSchema, type ProfileFormValues } from './profileSchemas';
 import { toProfilePayload } from './profileService';
 
-const defaultValues: ProfileFormValues = {
+const emptyProfileForm: ProfileFormValues = {
+  accountName: '',
   email: '',
-  name: '',
+  firstName: '',
+  lastName: '',
   currentPassword: '',
   newPassword: '',
-  repeatPassword: '',
+  passwordRepeat: '',
 };
 
-function toProfileFormValues({
-  email,
-  name,
-}: Pick<ProfileFormValues, 'email' | 'name'>): ProfileFormValues {
+const passwordErrorTarget = 'currentPassword';
+const fallbackSaveError = 'Не удалось сохранить профиль';
+
+function getProfileFormValues(user: User): ProfileFormValues {
   return {
-    email,
-    name,
-    currentPassword: '',
-    newPassword: '',
-    repeatPassword: '',
+    ...emptyProfileForm,
+    accountName: user.accountName,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
   };
+}
+
+function getSaveErrorMessage(error: unknown) {
+  return error instanceof Error ? error.message : fallbackSaveError;
+}
+
+function getSaveErrorTarget(message: string) {
+  return message.includes('пароль') ? passwordErrorTarget : 'email';
 }
 
 export function useProfileController() {
@@ -39,16 +49,18 @@ export function useProfileController() {
   const navigate = useNavigate();
 
   const currentUser = useAppSelector((state) => state.session.user);
-  const { data: users = [] } = useGetUsersQuery();
+  const { data: users = [], isError, isLoading } = useGetUsersQuery({});
+  const profileUser = useMemo(
+    () => users.find((user) => user.id === currentUser?.id) ?? null,
+    [currentUser?.id, users],
+  );
 
   const [updateUser, { isLoading: saveLoading }] = useUpdateUserMutation();
-  const [deleteUser, { isLoading: deleteLoading }] = useDeleteUserMutation();
-
-  const [isEditing, setIsEditing] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
-    defaultValues,
+    defaultValues: emptyProfileForm,
   });
 
   const newPassword = useWatch({
@@ -56,72 +68,78 @@ export function useProfileController() {
     name: 'newPassword',
   });
 
+  const resetFormToUser = useCallback(
+    (user: User) => {
+      form.reset(getProfileFormValues(user));
+    },
+    [form],
+  );
+
   useEffect(() => {
-    if (currentUser) {
-      form.reset(toProfileFormValues(currentUser));
+    const user = profileUser ?? currentUser;
+
+    if (user) {
+      resetFormToUser(user);
     }
-  }, [currentUser, form]);
+  }, [currentUser, profileUser, resetFormToUser]);
 
   useEffect(() => {
     if (!newPassword) {
-      form.setValue('repeatPassword', '');
+      form.setValue('passwordRepeat', '');
     }
   }, [form, newPassword]);
 
+  const clearProfileFeedback = useCallback(() => {
+    setSuccessMessage('');
+    form.clearErrors('root');
+  }, [form]);
+
+  const logoutProfile = useCallback(() => {
+    dispatch(logout());
+    navigate('/');
+  }, [dispatch, navigate]);
+
   const submitProfile = form.handleSubmit(async (values) => {
-    if (!currentUser) return;
+    if (!currentUser || !profileUser) {
+      form.setError('root', {
+        message:
+          'Не удалось загрузить полный профиль. Проверьте, что json-server запущен.',
+      });
+      return;
+    }
+
+    clearProfileFeedback();
 
     try {
       const updatedUser = await updateUser({
         id: currentUser.id,
-        ...toProfilePayload(values, users, currentUser),
+        ...toProfilePayload(values, users, profileUser),
       }).unwrap();
-      dispatch(profileChanged(updatedUser));
-      form.reset(toProfileFormValues(updatedUser));
-      setIsEditing(false);
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Не удалось сохранить профиль';
 
-      if (message.includes('пароль')) {
-        form.setError('currentPassword', { message });
-      } else {
-        form.setError('email', { message });
-      }
+      dispatch(profileChanged(updatedUser));
+      resetFormToUser(updatedUser);
+      setSuccessMessage('Изменения сохранены');
+    } catch (error) {
+      const message = getSaveErrorMessage(error);
+
+      form.setError(getSaveErrorTarget(message), { message });
     }
   });
 
-  const startEditing = () => {
-    if (currentUser) {
-      form.reset(toProfileFormValues(currentUser));
-    }
-    setIsEditing(true);
-  };
-
-  const deleteProfile = async () => {
-    if (!currentUser) return;
-
-    await deleteUser({ id: currentUser.id }).unwrap();
-
-    dispatch(logout());
-    navigate('/');
-  };
-
-  const logoutProfile = () => {
-    dispatch(logout());
-    navigate('/');
-  };
-
   return {
     control: form.control,
-    deleteLoading,
+    currentUser,
     errors: form.formState.errors,
-    isEditing,
+    hasChanges: form.formState.isDirty,
+    isError,
+    isLoading,
+    isSubmitting: form.formState.isSubmitting || saveLoading,
+    isVisible: !isLoading && !isError && Boolean(profileUser),
     newPassword,
-    saveLoading,
-    deleteProfile,
+    profileUser,
+    successMessage,
+    clearProfileFeedback,
     logoutProfile,
-    startEditing,
     submitProfile,
   };
 }

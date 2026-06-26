@@ -8,11 +8,13 @@ import {
 
 export const profileSchema = z
   .object({
+    accountName: requiredString(),
     email: emailSchema,
-    name: requiredString(),
+    firstName: requiredString(),
+    lastName: requiredString(),
     currentPassword: z.string().optional(),
     newPassword: z.union([passwordSchema, z.literal('')]).optional(),
-    repeatPassword: z.string().optional(),
+    passwordRepeat: z.string().optional(),
   })
   .superRefine((values, context) => {
     if (!values.newPassword) return;
@@ -25,11 +27,11 @@ export const profileSchema = z
       });
     }
 
-    if (values.repeatPassword !== values.newPassword) {
+    if (values.passwordRepeat !== values.newPassword) {
       context.addIssue({
         code: 'custom',
         message: 'Пароли не совпадают',
-        path: ['repeatPassword'],
+        path: ['passwordRepeat'],
       });
     }
   });

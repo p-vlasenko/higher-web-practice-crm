@@ -2,6 +2,7 @@ import type { Client } from '../types/client';
 import type { Deal } from '../types/deal';
 import type { Task } from '../types/task';
 import type { User } from '../types/user';
+import { getUserDisplayName } from './users';
 
 export type DealTableRow = Deal & {
   clientName: string;
@@ -31,7 +32,9 @@ export function createDealTitleResolver(deals: Deal[]) {
 }
 
 export function createUserNameResolver(users: User[]) {
-  const userNameById = createNameLookup(users);
+  const userNameById = new Map(
+    users.map((user) => [user.id, getUserDisplayName(user)]),
+  );
 
   return (userId: string) => userNameById.get(userId) ?? '-';
 }

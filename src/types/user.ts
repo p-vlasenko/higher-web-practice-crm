@@ -1,9 +1,11 @@
 export type User = {
   id: string;
   email: string;
-  name: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  accountName: string;
   createdAt: string;
-  password?: string;
 };
 
 export type UserProfile = User & {
@@ -11,9 +13,11 @@ export type UserProfile = User & {
 };
 
 export type RegisterPayload = {
+  accountName: string;
   email: string;
+  firstName: string;
+  lastName: string;
   password: string;
-  name: string;
 };
 
 export type LoginPayload = {
@@ -22,7 +26,9 @@ export type LoginPayload = {
 };
 
 export type UpdateProfilePayload = {
+  accountName?: string;
   email?: string;
-  name?: string;
+  firstName?: string;
+  lastName?: string;
   password?: string;
 };

@@ -2,6 +2,7 @@ import type { Client } from '../types/client';
 import type { Deal } from '../types/deal';
 import type { EntityOption } from '../types/options';
 import type { User } from '../types/user';
+import { getUserDisplayName } from './users';
 
 export function createClientOptions(clients: Client[]): EntityOption[] {
   return clients.map((client) => ({
@@ -15,5 +16,8 @@ export function createDealOptions(deals: Deal[]): EntityOption[] {
 }
 
 export function createUserOptions(users: User[]): EntityOption[] {
-  return users.map((user) => ({ value: user.id, label: user.name }));
+  return users.map((user) => ({
+    value: user.id,
+    label: getUserDisplayName(user),
+  }));
 }

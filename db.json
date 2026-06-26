@@ -4,15 +4,28 @@
       "id": "2c4c0c9a-6b1e-4f7c-9a6b-1f9a7a2e1001",
       "email": "manager1@crm.ru",
       "password": "123456",
-      "name": "Алексей Иванов",
+      "firstName": "Алексей",
+      "lastName": "Иванов",
+      "accountName": "Alexey",
       "createdAt": "2026-03-01T10:00:00Z"
     },
     {
       "id": "5b7a3c2d-9e4f-4a1c-b2d3-7f6e5c4b1002",
       "email": "manager2@crm.ru",
       "password": "123456",
-      "name": "Мария Соколова",
+      "firstName": "Мария",
+      "lastName": "Соколова",
+      "accountName": "Maria",
       "createdAt": "2026-03-02T10:00:00Z"
+    },
+    {
+      "accountName": "psvl",
+      "email": "psvl@testmail.com",
+      "firstName": "Pavel",
+      "id": "b9e3a788-5c2f-4e55-9fd4-bde37a1cedbd",
+      "lastName": "Vlasenko",
+      "password": "123456",
+      "createdAt": "2026-06-26T10:11:15.826Z"
     }
   ],
   "clients": [

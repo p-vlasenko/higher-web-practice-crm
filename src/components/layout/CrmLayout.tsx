@@ -16,6 +16,7 @@ import UserIcon from '../../assets/icons/icons-24x24/user.svg?react';
 import XMarkIcon from '../../assets/icons/icons-24x24/x-mark.svg?react';
 import LogoIcon from '../../assets/icons/logo/logo.svg?react';
 import LogoFullIcon from '../../assets/icons/logo/logo-full.svg?react';
+import { getUserDisplayName } from '../../utils/users';
 import { CrmIconButton } from '../ui/IconButton';
 import classes from './CrmLayout.module.css';
 
@@ -32,6 +33,7 @@ export function CrmLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.session.user);
+  const userName = user ? getUserDisplayName(user) : null;
 
   return (
     <div className={classes.shell}>
@@ -176,7 +178,7 @@ export function CrmLayout() {
                   isActive && classes.active,
                 )
               }
-              title={user?.name ?? 'Профиль'}
+              title={userName ?? 'Профиль'}
               to='/profile'
             >
               <UserIcon aria-hidden='true' />
@@ -186,7 +188,7 @@ export function CrmLayout() {
                   !isSidebarExpanded && classes.navLabel,
                 )}
               >
-                {user?.name ?? 'Пользователь'}
+                {userName ?? 'Пользователь'}
               </span>
             </NavLink>
           </div>

@@ -11,11 +11,19 @@ export const loginSchema = z.object({
   password: passwordSchema,
 });
 
-export const registrationSchema = z.object({
-  email: emailSchema,
-  password: passwordSchema,
-  name: requiredString(),
-});
+export const registrationSchema = z
+  .object({
+    accountName: requiredString(),
+    email: emailSchema,
+    firstName: requiredString(),
+    lastName: requiredString(),
+    password: passwordSchema,
+    passwordRepeat: requiredString(),
+  })
+  .refine((values) => values.password === values.passwordRepeat, {
+    message: 'Пароли не совпадают',
+    path: ['passwordRepeat'],
+  });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;
 export type RegistrationFormValues = z.infer<typeof registrationSchema>;

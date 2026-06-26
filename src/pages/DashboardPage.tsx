@@ -13,6 +13,7 @@ import { DashboardMobileView } from '../features/dashboard/DashboardMobileView';
 import { DashboardModals } from '../features/dashboard/DashboardModals';
 import { defaultDashboard } from '../features/dashboard/dashboardDefaults';
 import type { MobileDashboardTab } from '../features/dashboard/dashboardTypes';
+import { getUserFirstName } from '../utils/users';
 import classes from './Page.module.css';
 
 export function DashboardPage() {
@@ -33,7 +34,7 @@ export function DashboardPage() {
   const [taskModalOpened, setTaskModalOpened] = useState(false);
   const [mobileTab, setMobileTab] = useState<MobileDashboardTab>('main');
 
-  const firstName = currentUser?.name.split(' ')[0] ?? 'Ярополк';
+  const firstName = currentUser ? getUserFirstName(currentUser) : 'Ярополк';
   const getDealTitle = (dealId?: string) =>
     (dealId ? dashboard.dealTitleById[dealId] : undefined) ?? 'Без сделки';
 
