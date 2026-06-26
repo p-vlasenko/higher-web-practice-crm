@@ -1,11 +1,16 @@
-import type { ReportPeriod } from '../../types/reports';
+import { reportPeriods, type ReportFilterValues } from './reportSchemas';
 import type { ReportTab } from './reportTypes';
 
-export const periodOptions: { value: ReportPeriod; label: string }[] = [
-  { value: 'week', label: 'За неделю' },
-  { value: 'month', label: 'За месяц' },
-  { value: 'quarter', label: 'За квартал' },
-];
+const periodLabels: Record<ReportFilterValues['period'], string> = {
+  week: 'За неделю',
+  month: 'За месяц',
+  quarter: 'За квартал',
+};
+
+export const periodOptions = reportPeriods.map((value) => ({
+  value,
+  label: periodLabels[value],
+}));
 
 export const reportTabs: {
   value: ReportTab;

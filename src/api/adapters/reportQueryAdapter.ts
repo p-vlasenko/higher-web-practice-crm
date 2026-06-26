@@ -12,8 +12,12 @@ import type {
 } from '../../types/reports';
 import type { Task } from '../../types/task';
 import type { User } from '../../types/user';
-import { getPeriodStart } from '../../utils/periods';
 import type { SortValue } from '../../utils/sorting';
+import {
+  getReportFilterRange,
+  parseReportFilters,
+} from '../../features/reports/reportFilters';
+import type { ReportFilterValues } from '../../features/reports/reportSchemas';
 import { applySort, paginateItems } from '../query';
 import {
   buildClientActivityRows,
@@ -67,14 +71,39 @@ async function loadReportSources(
   };
 }
 
-function getReportRange(period: ReportQueryParams['period']) {
-  const now = new Date();
+function getReportRange(params: ReportQueryParams) {
+  return getReportFilterRange(parseReportFilters(params));
+}
 
-  return {
-    dateFrom: getPeriodStart(period, now).toISOString(),
-    dateTo: now.toISOString(),
-    now,
-  };
+function getFilteredSources(
+  sources: ReportSourceData,
+  filters: ReportFilterValues,
+) {
+  const deals = sources.deals.filter((deal) => {
+    if (filters.managerId && deal.createdBy !== filters.managerId) {
+      return false;
+    }
+
+    return !filters.dealStatus || deal.status === filters.dealStatus;
+  });
+  const clients = sources.clients.filter(
+    (client) => !filters.managerId || client.createdBy === filters.managerId,
+  );
+  const tasks = sources.tasks.filter((task) => {
+    if (
+      filters.managerId &&
+      task.createdBy !== filters.managerId &&
+      task.assigneeId !== filters.managerId
+    ) {
+      return false;
+    }
+
+    if (!filters.dealStatus) return true;
+
+    return deals.some((deal) => deal.id === task.dealId);
+  });
+
+  return { ...sources, clients, deals, tasks };
 }
 
 function buildReportPage<T>(
@@ -186,13 +215,15 @@ export async function getSalesReportPage(
   const sources = await loadReportSources(baseQuery, params.userId);
   if ('error' in sources) return { error: sources.error };
 
-  const { dateFrom, dateTo } = getReportRange(params.period);
+  const filters = parseReportFilters(params);
+  const filteredSources = getFilteredSources(sources.data, filters);
+  const { dateFrom, dateTo } = getReportRange(params);
 
   return {
     data: buildReportPage(
       buildSalesRows(
-        sources.data.deals,
-        sources.data.clients,
+        filteredSources.deals,
+        filteredSources.clients,
         dateFrom,
         dateTo,
       ),
@@ -209,11 +240,13 @@ export async function getStageReportPage(
   const sources = await loadReportSources(baseQuery, params.userId);
   if ('error' in sources) return { error: sources.error };
 
-  const { dateFrom, dateTo } = getReportRange(params.period);
+  const filters = parseReportFilters(params);
+  const filteredSources = getFilteredSources(sources.data, filters);
+  const { dateFrom, dateTo } = getReportRange(params);
 
   return {
     data: buildReportPage(
-      buildStageRows(sources.data.deals, dateFrom, dateTo).filter(
+      buildStageRows(filteredSources.deals, dateFrom, dateTo).filter(
         (row) => row.dealsCount > 0,
       ),
       params,
@@ -229,11 +262,13 @@ export async function getNewClientsReportPage(
   const sources = await loadReportSources(baseQuery, params.userId);
   if ('error' in sources) return { error: sources.error };
 
-  const { dateFrom, dateTo } = getReportRange(params.period);
+  const filters = parseReportFilters(params);
+  const filteredSources = getFilteredSources(sources.data, filters);
+  const { dateFrom, dateTo } = getReportRange(params);
 
   return {
     data: buildReportPage(
-      buildNewClientRows(sources.data.clients, dateFrom, dateTo),
+      buildNewClientRows(filteredSources.clients, dateFrom, dateTo),
       params,
       getNewClientSortValue,
     ),
@@ -247,14 +282,16 @@ export async function getClientActivityReportPage(
   const sources = await loadReportSources(baseQuery, params.userId);
   if ('error' in sources) return { error: sources.error };
 
-  const { dateFrom, dateTo } = getReportRange(params.period);
+  const filters = parseReportFilters(params);
+  const filteredSources = getFilteredSources(sources.data, filters);
+  const { dateFrom, dateTo } = getReportRange(params);
 
   return {
     data: buildReportPage(
       buildClientActivityRows(
-        sources.data.clients,
-        sources.data.deals,
-        sources.data.tasks,
+        filteredSources.clients,
+        filteredSources.deals,
+        filteredSources.tasks,
         dateFrom,
         dateTo,
       ),
@@ -271,13 +308,15 @@ export async function getOverdueTasksReportPage(
   const sources = await loadReportSources(baseQuery, params.userId);
   if ('error' in sources) return { error: sources.error };
 
-  const { dateFrom, dateTo, now } = getReportRange(params.period);
+  const filters = parseReportFilters(params);
+  const filteredSources = getFilteredSources(sources.data, filters);
+  const { dateFrom, dateTo, now } = getReportRange(params);
 
   return {
     data: buildReportPage(
       buildOverdueTaskRows(
-        sources.data.tasks,
-        sources.data.users,
+        filteredSources.tasks,
+        filteredSources.users,
         now,
         dateFrom,
         dateTo,

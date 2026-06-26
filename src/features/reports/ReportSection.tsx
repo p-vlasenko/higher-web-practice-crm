@@ -3,18 +3,18 @@ import type { ReactNode } from 'react';
 
 import DownIcon from '../../assets/icons/icons-16x16/down.svg?react';
 import { Pagination } from '../../components/ui/Pagination';
-import type { ReportPeriod } from '../../types/reports';
 import classes from '../../pages/ReportsPage.module.css';
 import { periodOptions } from './reportOptions';
+import type { ReportFilterValues } from './reportSchemas';
 
 type ReportSectionProps = {
   title: string;
   children: ReactNode;
   currentPage: number;
-  period: ReportPeriod;
+  period: ReportFilterValues['period'];
   totalPages: number;
   onPageChange: (page: number) => void;
-  onPeriodChange: (period: ReportPeriod) => void;
+  onPeriodChange: (period: ReportFilterValues['period']) => void;
 };
 
 export function ReportSection({
@@ -45,8 +45,8 @@ function ReportToolbar({
   period,
   onPeriodChange,
 }: {
-  period: ReportPeriod;
-  onPeriodChange: (period: ReportPeriod) => void;
+  period: ReportFilterValues['period'];
+  onPeriodChange: (period: ReportFilterValues['period']) => void;
 }) {
   return (
     <div className={classes.reportToolbar}>
@@ -61,7 +61,7 @@ function ReportToolbar({
         value={period}
         rightSection={<DownIcon aria-hidden='true' />}
         onChange={(value) => {
-          if (value) onPeriodChange(value as ReportPeriod);
+          if (value) onPeriodChange(value as ReportFilterValues['period']);
         }}
       />
     </div>

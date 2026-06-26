@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import {
   useGetClientActivityReportQuery,
@@ -9,11 +10,14 @@ import {
 } from '../../api/endpoints/crmEndpoints';
 import type {
   ReportPage,
-  ReportPeriod,
   ReportQueryParams,
   ReportSortKey,
 } from '../../types/reports';
 import type { SortState } from '../../utils/sorting';
+import {
+  parseReportFiltersFromSearchParams,
+  writeReportFiltersToSearchParams,
+} from './reportFilters';
 import { ReportSection } from './ReportSection';
 import { ReportTable } from './ReportTable';
 import { ReportTabs } from './ReportTabs';
@@ -35,6 +39,7 @@ import type {
   ReportTab,
   ReportTableRow,
 } from './reportTypes';
+import type { ReportFilterValues } from './reportSchemas';
 
 const reportsPageSize = 10;
 const emptyReportPage: ReportPage<never> = {
@@ -139,6 +144,23 @@ type ReportsDashboardProps = {
 export function ReportsDashboard({ userId }: ReportsDashboardProps) {
   const [activeTab, setActiveTab] = useState<ReportTab>('sales');
   const reportRequests = useReportRequests();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const reportFilters = useMemo(
+    () => parseReportFiltersFromSearchParams(searchParams),
+    [searchParams],
+  );
+  const setReportPeriod = useCallback(
+    (period: ReportFilterValues['period']) => {
+      const nextFilters = { ...reportFilters, period };
+
+      setSearchParams(
+        writeReportFiltersToSearchParams(searchParams, nextFilters),
+        { replace: true },
+      );
+      reportRequests.resetPages();
+    },
+    [reportFilters, reportRequests, searchParams, setSearchParams],
+  );
   const activeReports = reportsConfig.filter(
     (report) => report.tab === activeTab,
   );
@@ -150,8 +172,10 @@ export function ReportsDashboard({ userId }: ReportsDashboardProps) {
       {activeReports.map((report) => (
         <ReportConfigSection
           config={report}
+          filters={reportFilters}
           key={report.id}
           request={reportRequests[report.id]}
+          onPeriodChange={setReportPeriod}
           userId={userId}
         />
       ))}
@@ -159,12 +183,23 @@ export function ReportsDashboard({ userId }: ReportsDashboardProps) {
   );
 }
 
-function useReportRequests(): Record<ReportId, ReportRequestState> {
+type ReportRequests = Record<ReportId, ReportRequestState> & {
+  resetPages: () => void;
+};
+
+function useReportRequests(): ReportRequests {
   const sales = useReportRequestState();
   const stages = useReportRequestState();
   const newClients = useReportRequestState();
   const clientActivity = useReportRequestState();
   const overdueTasks = useReportRequestState();
+  const resetPages = useCallback(() => {
+    sales.setPage(1);
+    stages.setPage(1);
+    newClients.setPage(1);
+    clientActivity.setPage(1);
+    overdueTasks.setPage(1);
+  }, [clientActivity, newClients, overdueTasks, sales, stages]);
 
   return useMemo(
     () => ({
@@ -173,24 +208,29 @@ function useReportRequests(): Record<ReportId, ReportRequestState> {
       newClients,
       clientActivity,
       overdueTasks,
+      resetPages,
     }),
-    [clientActivity, newClients, overdueTasks, sales, stages],
+    [clientActivity, newClients, overdueTasks, resetPages, sales, stages],
   );
 }
 
 type ReportConfigSectionProps = {
   config: NormalizedReportConfig;
+  filters: ReportFilterValues;
+  onPeriodChange: (period: ReportFilterValues['period']) => void;
   request: ReportRequestState;
   userId?: string;
 };
 
 function ReportConfigSection({
   config,
+  filters,
+  onPeriodChange,
   request,
   userId,
 }: ReportConfigSectionProps) {
   const { data = emptyReportPage } = config.queryHook(
-    getReportQueryParams(userId, request),
+    getReportQueryParams(userId, filters, request),
   );
 
   useEffect(() => {
@@ -201,10 +241,10 @@ function ReportConfigSection({
     <ReportSection
       title={config.title}
       currentPage={request.page}
-      period={request.period}
+      period={filters.period}
       totalPages={getTotalPages(data)}
       onPageChange={request.setPage}
-      onPeriodChange={request.setPeriod}
+      onPeriodChange={onPeriodChange}
     >
       <ReportTable
         danger={config.danger}
@@ -220,17 +260,14 @@ function ReportConfigSection({
 
 type ReportRequestState = {
   page: number;
-  period: ReportPeriod;
   sort: SortState<ReportSortKey> | null;
   clampPage: (total: number) => void;
   setPage: (page: number) => void;
-  setPeriod: (period: ReportPeriod) => void;
   setSort: (sort: SortState<ReportSortKey>) => void;
 };
 
 function useReportRequestState(): ReportRequestState {
   const [page, setPage] = useState(1);
-  const [period, setPeriodState] = useState<ReportPeriod>('week');
   const [sort, setSortState] = useState<SortState<ReportSortKey> | null>(null);
   const totalPages = useCallback(
     (total: number) => Math.max(1, Math.ceil(total / reportsPageSize)),
@@ -247,10 +284,6 @@ function useReportRequestState(): ReportRequestState {
   const setClampedPage = useCallback((nextPage: number) => {
     setPage(Math.max(1, nextPage));
   }, []);
-  const setPeriod = useCallback((nextPeriod: ReportPeriod) => {
-    setPeriodState(nextPeriod);
-    setPage(1);
-  }, []);
   const setSort = useCallback((nextSort: SortState<ReportSortKey>) => {
     setSortState(nextSort);
     setPage(1);
@@ -259,24 +292,23 @@ function useReportRequestState(): ReportRequestState {
   return useMemo(
     () => ({
       page,
-      period,
       sort,
       clampPage,
       setPage: setClampedPage,
-      setPeriod,
       setSort,
     }),
-    [clampPage, page, period, setClampedPage, setPeriod, setSort, sort],
+    [clampPage, page, setClampedPage, setSort, sort],
   );
 }
 
 function getReportQueryParams(
   userId: string | undefined,
+  filters: ReportFilterValues,
   request: ReportRequestState,
-) {
+): ReportQueryParams {
   return {
+    ...filters,
     userId,
-    period: request.period,
     limit: reportsPageSize,
     offset: (request.page - 1) * reportsPageSize,
     sortBy: request.sort?.key,

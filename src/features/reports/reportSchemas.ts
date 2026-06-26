@@ -1,11 +1,30 @@
 import { z } from 'zod';
 
+export const reportPeriods = ['week', 'month', 'quarter'] as const;
+export const reportDealStatuses = [
+  'new',
+  'in_progress',
+  'completed',
+  'cancelled',
+] as const;
+
+const optionalFilterString = z.preprocess(
+  (value) => (value === '' ? undefined : value),
+  z.string().optional(),
+);
+
 export const reportFilterSchema = z
   .object({
-    dateFrom: z.string().optional(),
-    dateTo: z.string().optional(),
-    dealStatus: z.string().optional(),
-    managerId: z.string().optional(),
+    period: z.enum(reportPeriods).default('week'),
+    dateFrom: optionalFilterString,
+    dateTo: optionalFilterString,
+    dealStatus: z
+      .preprocess(
+        (value) => (value === '' ? undefined : value),
+        z.enum(reportDealStatuses).optional(),
+      )
+      .optional(),
+    managerId: optionalFilterString,
   })
   .refine(
     (values) =>

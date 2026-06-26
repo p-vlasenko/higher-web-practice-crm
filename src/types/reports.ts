@@ -1,8 +1,7 @@
 import type { DealStatus } from './deal';
 import type { TaskStatus } from './task';
 import type { Page, QueryParams } from '../api/query';
-
-export type ReportPeriod = 'week' | 'month' | 'quarter';
+import type { ReportFilterValues } from '../features/reports/reportSchemas';
 
 export type ReportSortKey =
   | 'id'
@@ -57,9 +56,9 @@ export type OverdueTaskReportRow = {
   status: TaskStatus;
 };
 
-export type ReportQueryParams = QueryParams<ReportSortKey> & {
+export type ReportQueryParams = QueryParams<ReportSortKey> &
+  ReportFilterValues & {
   userId?: string;
-  period: ReportPeriod;
 };
 
 export type ReportPage<Row> = Page<Row>;
