@@ -200,6 +200,7 @@ export function CrmLayout() {
               <span
                 className={cx(
                   isSidebarExpanded && classes.navLabelVisible,
+                  isSidebarExpanded && classes.userName,
                   !isSidebarExpanded && classes.navLabel,
                 )}
               >
