@@ -15,11 +15,11 @@ type ClientModalProps = {
   client?: Client | null;
   loading?: boolean;
   onClose: () => void;
-  onSubmit: (values: ClientFormValues) => void;
+  onSubmit: (values: ClientFormValues) => Promise<unknown> | void;
   onDelete?: () => void;
 };
 
-const defaults: ClientFormValues = {
+const createClientDefaults = (): ClientFormValues => ({
   name: '',
   phone: '',
   email: '',
@@ -27,7 +27,17 @@ const defaults: ClientFormValues = {
   website: '',
   createdAt: new Date().toISOString().slice(0, 10),
   comment: '',
-};
+});
+
+const getClientFormValues = (client?: Client | null): ClientFormValues =>
+  client
+    ? {
+        ...client,
+        createdAt: client.createdAt.slice(0, 10),
+        website: client.website ?? '',
+        comment: client.comment ?? '',
+      }
+    : createClientDefaults();
 
 export function ClientModal({
   opened,
@@ -46,20 +56,11 @@ export function ClientModal({
     formState: { errors },
   } = useForm<ClientFormValues>({
     resolver: zodResolver(clientSchema),
-    defaultValues: defaults,
+    defaultValues: createClientDefaults(),
   });
 
   useEffect(() => {
-    reset(
-      client
-        ? {
-            ...client,
-            createdAt: client.createdAt.slice(0, 10),
-            website: client.website ?? '',
-            comment: client.comment ?? '',
-          }
-        : defaults,
-    );
+    reset(getClientFormValues(client));
   }, [client, reset]);
 
   const isEditing = Boolean(client && editingClientId === client.id);
@@ -71,9 +72,13 @@ export function ClientModal({
     onClose();
   };
 
-  const submitForm = handleSubmit((values) => {
+  const submitForm = handleSubmit(async (values) => {
+    await onSubmit(values);
     setEditingClientId(null);
-    onSubmit(values);
+
+    if (!client) {
+      reset(createClientDefaults());
+    }
   });
 
   return (
@@ -124,93 +129,105 @@ export function ClientModal({
       onSubmit={client ? undefined : submitForm}
     >
       <form className={modalClasses.modalForm} onSubmit={submitForm}>
-        <Controller
-          name='name'
-          control={control}
-          render={({ field }) => (
-            <CrmTextInput
-              required
-              readOnly={readonly}
-              label='Имя'
-              placeholder='Добрыня'
-              error={errors.name?.message}
-              {...field}
-            />
-          )}
-        />
-        <div className={modalClasses.modalFieldRow}>
+        <div className={modalClasses.modalField}>
           <Controller
-            name='phone'
+            name='name'
             control={control}
             render={({ field }) => (
               <CrmTextInput
                 required
                 readOnly={readonly}
-                label='Телефон'
-                placeholder='+7 915 876-54-32'
-                error={errors.phone?.message}
-                {...field}
-              />
-            )}
-          />
-          <Controller
-            name='company'
-            control={control}
-            render={({ field }) => (
-              <CrmTextInput
-                required
-                readOnly={readonly}
-                label='Компания'
-                placeholder='Доброград'
-                error={errors.company?.message}
+                label='Имя'
+                placeholder='Добрыня'
+                error={errors.name?.message}
                 {...field}
               />
             )}
           />
         </div>
         <div className={modalClasses.modalFieldRow}>
-          <Controller
-            name='website'
-            control={control}
-            render={({ field }) => (
-              <CrmTextInput
-                readOnly={readonly}
-                label='Сайт'
-                placeholder='www.dobrograd.ru'
-                error={errors.website?.message}
-                {...field}
-              />
-            )}
-          />
-          <Controller
-            name='email'
-            control={control}
-            render={({ field }) => (
-              <CrmTextInput
-                required
-                readOnly={readonly}
-                label='Email'
-                placeholder='dobrinia@yandex.ru'
-                error={errors.email?.message}
-                {...field}
-              />
-            )}
-          />
+          <div className={modalClasses.modalField}>
+            <Controller
+              name='phone'
+              control={control}
+              render={({ field }) => (
+                <CrmTextInput
+                  required
+                  readOnly={readonly}
+                  label='Телефон'
+                  placeholder='+7 915 876-54-32'
+                  error={errors.phone?.message}
+                  {...field}
+                />
+              )}
+            />
+          </div>
+          <div className={modalClasses.modalField}>
+            <Controller
+              name='company'
+              control={control}
+              render={({ field }) => (
+                <CrmTextInput
+                  required
+                  readOnly={readonly}
+                  label='Компания'
+                  placeholder='Доброград'
+                  error={errors.company?.message}
+                  {...field}
+                />
+              )}
+            />
+          </div>
+        </div>
+        <div className={modalClasses.modalFieldRow}>
+          <div className={modalClasses.modalField}>
+            <Controller
+              name='website'
+              control={control}
+              render={({ field }) => (
+                <CrmTextInput
+                  readOnly={readonly}
+                  label='Сайт'
+                  placeholder='www.dobrograd.ru'
+                  error={errors.website?.message}
+                  {...field}
+                />
+              )}
+            />
+          </div>
+          <div className={modalClasses.modalField}>
+            <Controller
+              name='email'
+              control={control}
+              render={({ field }) => (
+                <CrmTextInput
+                  required
+                  readOnly={readonly}
+                  label='Email'
+                  placeholder='dobrinia@yandex.ru'
+                  error={errors.email?.message}
+                  {...field}
+                />
+              )}
+            />
+          </div>
         </div>
         {client && isEditing ? (
-          <Controller
-            name='createdAt'
-            control={control}
-            render={({ field }) => (
-              <CrmTextInput
-                required
-                type='date'
-                label='Дата создания'
-                error={errors.createdAt?.message}
-                {...field}
-              />
-            )}
-          />
+          <div className={modalClasses.modalField}>
+            <Controller
+              name='createdAt'
+              control={control}
+              render={({ field }) => (
+                <CrmTextInput
+                  required
+                  type='date'
+                  label='Дата создания'
+                  error={errors.createdAt?.message}
+                  {...field}
+                />
+              )}
+            />
+          </div>
         ) : null}
         <Controller
           name='comment'

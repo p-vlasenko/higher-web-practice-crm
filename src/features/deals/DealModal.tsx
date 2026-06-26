@@ -21,10 +21,10 @@ type DealModalProps = {
   clientOptions: EntityOption[];
   loading?: boolean;
   onClose: () => void;
-  onSubmit: (values: DealFormValues) => void;
+  onSubmit: (values: DealFormValues) => Promise<unknown> | void;
 };
 
-const defaults: DealFormValues = {
+const createDealDefaults = (): DealFormValues => ({
   title: '',
   clientId: '',
   description: '',
@@ -32,7 +32,17 @@ const defaults: DealFormValues = {
   status: 'new',
   createdAt: new Date().toISOString().slice(0, 10),
   completedAt: '',
-};
+});
+
+const getDealFormValues = (deal?: Deal | null): DealFormValues =>
+  deal
+    ? {
+        ...deal,
+        createdAt: deal.createdAt.slice(0, 10),
+        completedAt: deal.completedAt?.slice(0, 10) ?? '',
+        description: deal.description ?? '',
+      }
+    : createDealDefaults();
 
 export function DealModal({
   opened,
@@ -49,22 +59,25 @@ export function DealModal({
     formState: { errors },
   } = useForm<DealFormValues>({
     resolver: zodResolver(dealSchema),
-    defaultValues: defaults,
+    defaultValues: createDealDefaults(),
   });
   const status = useWatch({ control, name: 'status' });
 
   useEffect(() => {
-    reset(
-      deal
-        ? {
-            ...deal,
-            createdAt: deal.createdAt.slice(0, 10),
-            completedAt: deal.completedAt?.slice(0, 10) ?? '',
-            description: deal.description ?? '',
-          }
-        : defaults,
-    );
+    reset(getDealFormValues(deal));
   }, [deal, reset]);
+
+  const closeModal = () => {
+    onClose();
+  };
+
+  const submitForm = handleSubmit(async (values) => {
+    await onSubmit(values);
+
+    if (!deal) {
+      reset(createDealDefaults());
+    }
+  });
 
   return (
     <CrmModal
@@ -74,100 +87,109 @@ export function DealModal({
       loading={loading}
       mobileBackLabel={deal ? undefined : 'Новая сделка'}
       submitLabel={deal ? 'Сохранить' : 'Создать сделку'}
-      onClose={onClose}
-      onSubmit={handleSubmit(onSubmit)}
+      onClose={closeModal}
+      onSubmit={submitForm}
     >
-      <form
-        className={modalClasses.modalForm}
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className={modalClasses.modalForm} onSubmit={submitForm}>
         <div className={modalClasses.modalFieldRow}>
-          <Controller
-            name='title'
-            control={control}
-            render={({ field }) => (
-              <CrmTextInput
-                required
-                label='Название'
-                placeholder='Заключение договора'
-                error={errors.title?.message}
-                {...field}
-              />
-            )}
-          />
-          <Controller
-            name='clientId'
-            control={control}
-            render={({ field }) => (
-              <CrmSelect
-                required
-                label='Клиент'
-                data={clientOptions}
-                placeholder='Велимир'
-                error={errors.clientId?.message}
-                {...field}
-              />
-            )}
-          />
-        </div>
-        <div className={modalClasses.modalFieldRow}>
-          <Controller
-            name='amount'
-            control={control}
-            render={({ field }) => (
-              <CrmNumberInput
-                required
-                label='Сумма'
-                placeholder='50 000 ₽'
-                error={errors.amount?.message}
-                {...field}
-              />
-            )}
-          />
-          <Controller
-            name='status'
-            control={control}
-            render={({ field }) => (
-              <CrmSelect
-                required
-                label='Статус'
-                data={Object.entries(dealStatusLabels).map(
-                  ([value, label]) => ({ value, label }),
-                )}
-                error={errors.status?.message}
-                {...field}
-              />
-            )}
-          />
-        </div>
-        {deal ? (
-          <div className={modalClasses.modalFieldRow}>
+          <div className={modalClasses.modalField}>
             <Controller
-              name='createdAt'
+              name='title'
               control={control}
               render={({ field }) => (
                 <CrmTextInput
                   required
-                  type='date'
-                  label='Дата создания'
-                  error={errors.createdAt?.message}
+                  label='Название'
+                  placeholder='Заключение договора'
+                  error={errors.title?.message}
                   {...field}
                 />
               )}
             />
+          </div>
+          <div className={modalClasses.modalField}>
             <Controller
-              name='completedAt'
+              name='clientId'
               control={control}
               render={({ field }) => (
-                <CrmTextInput
-                  required={status === 'completed'}
-                  type='date'
-                  label='Дата завершения'
-                  error={errors.completedAt?.message}
+                <CrmSelect
+                  required
+                  label='Клиент'
+                  data={clientOptions}
+                  placeholder='Велимир'
+                  error={errors.clientId?.message}
                   {...field}
                 />
               )}
             />
+          </div>
+        </div>
+        <div className={modalClasses.modalFieldRow}>
+          <div className={modalClasses.modalField}>
+            <Controller
+              name='amount'
+              control={control}
+              render={({ field }) => (
+                <CrmNumberInput
+                  required
+                  label='Сумма'
+                  placeholder='50 000 ₽'
+                  error={errors.amount?.message}
+                  {...field}
+                />
+              )}
+            />
+          </div>
+          <div className={modalClasses.modalField}>
+            <Controller
+              name='status'
+              control={control}
+              render={({ field }) => (
+                <CrmSelect
+                  required
+                  label='Статус'
+                  data={Object.entries(dealStatusLabels).map(
+                    ([value, label]) => ({ value, label }),
+                  )}
+                  error={errors.status?.message}
+                  {...field}
+                />
+              )}
+            />
+          </div>
+        </div>
+        {deal ? (
+          <div className={modalClasses.modalFieldRow}>
+            <div className={modalClasses.modalField}>
+              <Controller
+                name='createdAt'
+                control={control}
+                render={({ field }) => (
+                  <CrmTextInput
+                    required
+                    type='date'
+                    label='Дата создания'
+                    error={errors.createdAt?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+            <div className={modalClasses.modalField}>
+              <Controller
+                name='completedAt'
+                control={control}
+                render={({ field }) => (
+                  <CrmTextInput
+                    required={status === 'completed'}
+                    type='date'
+                    label='Дата завершения'
+                    error={errors.completedAt?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
           </div>
         ) : null}
         <Controller

@@ -12,6 +12,26 @@ export const phoneSchema = requiredString().regex(
   'Введите корректный телефон',
 );
 
+const HTTP_PROTOCOL_REGEXP = /^https?:\/\//i;
+
+const getRawHostname = (value: string) => {
+  const withoutProtocol = value.replace(HTTP_PROTOCOL_REGEXP, '');
+  const [withoutPath] = withoutProtocol.split(/[/?#]/, 1);
+  const [hostname] = withoutPath.split(':', 1);
+
+  return hostname;
+};
+
+const hasDomain = (hostname: string) => {
+  const labels = hostname.split('.');
+
+  return (
+    labels.length > 1 &&
+    labels.every(Boolean) &&
+    labels[labels.length - 1].length >= 2
+  );
+};
+
 export const urlSchema = z
   .string()
   .trim()
@@ -19,9 +39,14 @@ export const urlSchema = z
   .refine((value) => {
     if (!value) return true;
     try {
-      const normalized = value.startsWith('http') ? value : `https://${value}`;
+      const normalized = HTTP_PROTOCOL_REGEXP.test(value)
+        ? value
+        : `https://${value}`;
+      const hostname = getRawHostname(value);
+
       new URL(normalized);
-      return true;
+
+      return hasDomain(hostname);
     } catch {
       return false;
     }
