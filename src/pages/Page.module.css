@@ -767,13 +767,15 @@
   background: var(--crm-blue-100);
 }
 
-.profileAvatarIcon {
-  width: 44px;
-  height: 44px;
+.profileAvatarImage {
+  display: block;
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
 }
 
-.profileAvatarIcon path {
-  stroke: var(--crm-gray-800);
+.profileAvatarPlaceholder :global(.mantine-Avatar-image) {
+  object-fit: cover;
 }
 
 .profileAvatarButton {

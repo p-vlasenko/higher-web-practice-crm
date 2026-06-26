@@ -1,8 +1,8 @@
 import { Avatar, Button } from '@mantine/core';
 import { Controller, type Control, type FieldErrors } from 'react-hook-form';
 
+import avatarStub from '../../assets/avatar-stub.png';
 import CameraIcon from '../../assets/icons/icons-24x24/camera.svg?react';
-import UserIcon from '../../assets/icons/icons-24x24/user.svg?react';
 import { CrmPasswordInput, CrmTextInput } from '../../components/ui/FormFields';
 import classes from '../../pages/Page.module.css';
 import type { ProfileFormValues } from './profileSchemas';
@@ -114,7 +114,12 @@ function ProfileAvatar() {
   return (
     <div className={classes.profileAvatarGroup}>
       <Avatar className={classes.profileAvatarPlaceholder} size={92}>
-        <UserIcon aria-hidden='true' className={classes.profileAvatarIcon} />
+        <img
+          alt=''
+          aria-hidden='true'
+          className={classes.profileAvatarImage}
+          src={avatarStub}
+        />
       </Avatar>
       <button
         disabled

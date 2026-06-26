@@ -145,6 +145,15 @@
   height: 24px;
 }
 
+.userAvatar {
+  display: block;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .navItem:hover,
 .userItem:hover {
   background: var(--crm-gray-200);

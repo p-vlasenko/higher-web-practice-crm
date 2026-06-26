@@ -4,6 +4,7 @@ import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { cx } from 'classix';
 
 import { useAppSelector } from '../../app/hooks';
+import avatarStub from '../../assets/avatar-stub.png';
 import BarsIcon from '../../assets/icons/icons-24x24/bars.svg?react';
 import BriefcaseIcon from '../../assets/icons/icons-24x24/briefcase.svg?react';
 import HomeIcon from '../../assets/icons/icons-24x24/home.svg?react';
@@ -33,7 +34,7 @@ export function CrmLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.session.user);
-  const userName = user ? getUserDisplayName(user) : null;
+  const userName = user ? user.accountName : null;
 
   return (
     <div className={classes.shell}>
@@ -181,7 +182,12 @@ export function CrmLayout() {
               title={userName ?? 'Профиль'}
               to='/profile'
             >
-              <UserIcon aria-hidden='true' />
+              <img
+                alt=''
+                aria-hidden='true'
+                className={classes.userAvatar}
+                src={avatarStub}
+              />
               <span
                 className={cx(
                   isSidebarExpanded && classes.navLabelVisible,
